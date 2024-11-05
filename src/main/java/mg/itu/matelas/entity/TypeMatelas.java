@@ -5,17 +5,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
-public class Forme {
+@Data
+@Table(name="type_matelas")
+public class TypeMatelas {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id_forme")
-    private Long idForme;
+    @Column(name="id_type_matelas")
+    private Long idTypeMatelas;
 
-    private double longueur;
-
-    private double largeur;
-
-    private double epaisseur;
+    @Column(name="type_matelas")
+    private String typeMatelas;
 }

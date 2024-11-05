@@ -8,24 +8,27 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Data;
 
 @Entity
-public class Bloc {
+@Data
+public class Matelas {
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY )
-    @Column(name="id_bloc")
-    private Long idBloc;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id_matelas")
+    private Long idMatelas;
 
-    String bloc;
-
-    @Column(name="prix_revient")
-    double prixRevient;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_forme")
-    private Forme forme;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_type_matelas")
+    private TypeMatelas typeMatelas;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_origine")
-    private Bloc origine;
+    private Matelas origine;
+
+    private double longueur;
+    private double largeur;
+    private double epaisseur;
+
+    private int etat;
 }
