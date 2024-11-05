@@ -26,8 +26,6 @@ public class Transformation {
     @JoinColumn(name="id_bloc")
     private Matelas bloc;
 
-    @OneToMany(mappedBy = "fournisseur", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Matelas> produit;
-
-    private int nombre;
+    @OneToMany(mappedBy = "transformation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TransformationProduit> produit;
 }
