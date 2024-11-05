@@ -29,4 +29,11 @@ public class MvtStock {
     
     @Column(name="prix_unitaire")
     private double prixUnitaire;
+
+    public MvtStock(TransformationProduit produit){
+        this.setEntree(produit.getNombre());
+        this.setSortie(0);
+        this.setMatelas(produit.getProduit());
+        this.setPrixUnitaire(produit.getProduit().getPrixUnitaire());
+    }
 }

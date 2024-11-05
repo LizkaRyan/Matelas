@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import mg.itu.matelas.other.ConstanteEtat;
 
 @Entity
 @Data
@@ -30,5 +31,8 @@ public class Matelas {
     private double largeur;
     private double epaisseur;
 
-    private int etat;
+    @Column(name="prix_unitaire")
+    private double prixUnitaire;
+
+    private int etat=ConstanteEtat.NON_UTILISE;
 }
