@@ -13,12 +13,12 @@ import mg.itu.matelas.entity.Matelas;
 import mg.itu.matelas.entity.Transformation;
 import mg.itu.matelas.entity.TransformationProduit;
 import mg.itu.matelas.repository.MatelasRepository;
-import mg.itu.matelas.repository.TransformationProduitRepository;
+import mg.itu.matelas.repository.TransformationRepository;
 
 @Service
 public class TransformationProduitService {
     @Autowired
-    private TransformationProduitRepository transformationProduitRepository;
+    private TransformationRepository transformationRepository;
 
     @Autowired
     private MatelasRepository matelasRepository;
@@ -32,13 +32,10 @@ public class TransformationProduitService {
             transformationProduit.setProduit(produit);
             transformationProduit.setNombre(transformationProduitDTO.getNombre());
             transformationProduit.setTransformation(transformation);
-            transformationProduit=transformationProduitRepository.save(transformationProduit);
+            transformationProduit.setPrixUnitaire(produit.getPrixUnitaire());
+            //transformationProduit=transformationProduitRepository.save(transformationProduit);
             transformationProduits.add(transformationProduit);
         }
         return transformationProduits;
-    }
-
-    public BeneficeDTO getBenefice(Long idTransformation){
-        return transformationProduitRepository.getBeneficeTheorique(idTransformation).orElseThrow(()->new RuntimeException("Transformation non trouve"));
     }
 }

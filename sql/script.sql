@@ -4,3 +4,5 @@ natural join transformation as t
 where tp.id_transformation=1 
 group by t.id_bloc)
 select sum(prix_vente) as prix_vente,m.prix_unitaire,sum(prix_vente)-m.prix_unitaire as benefice_theorique from vente as pv join matelas as m on m.id_matelas=pv.id_bloc group by id_matelas,m.prix_unitaire;
+
+select * from matelas as m where id_matelas=1;

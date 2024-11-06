@@ -19,4 +19,13 @@ public class TypeMatelas {
 
     @Column(name="type_matelas")
     private String typeMatelas;
+
+    public TypeMatelas(Long id,String typeMatelas){
+        this.setIdTypeMatelas(id);
+        this.setTypeMatelas(typeMatelas);
+    }
+
+    public TypeMatelas(){
+        
+    }
 }

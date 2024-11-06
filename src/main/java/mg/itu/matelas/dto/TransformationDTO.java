@@ -7,6 +7,12 @@ import lombok.Data;
 @Data
 public class TransformationDTO {
     private Long idBloc;
-    private int nombre;
     private List<TransformationProduitDTO> transformationProduit;
+    private double longueurReste;
+    private double largeurReste;
+    private double epaisseurReste;
+
+    public double getVolumeReste(){
+        return longueurReste*largeurReste*epaisseurReste;
+    }
 }

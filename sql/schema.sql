@@ -24,8 +24,10 @@ CREATE TABLE matelas(
 
 CREATE TABLE transformation(
    id_transformation SERIAL,
+   id_reste INTEGER,
    id_bloc INTEGER NOT NULL,
    PRIMARY KEY(id_transformation),
+   FOREIGN KEY(id_reste) REFERENCES matelas(id_matelas),
    FOREIGN KEY(id_bloc) REFERENCES matelas(id_matelas)
 );
 
