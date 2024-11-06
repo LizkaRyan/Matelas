@@ -1,24 +1,33 @@
 package mg.itu.matelas.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-import mg.itu.matelas.entity.Matelas;
-import mg.itu.matelas.service.MatelasService;
+import mg.itu.matelas.dto.MatelasDTO;
+import mg.itu.matelas.repository.MatelasRepository;
 
-@RestController
+
+
+@Controller
 @RequestMapping("/matelas")
 public class MatelasController {
-
     @Autowired
-    MatelasService matelasService;
+    private MatelasRepository matelasRepository;
 
-    @PostMapping("/insert/bloc")
-    public String insertBloc(@ModelAttribute Matelas matelasInserted) {
-        matelasService.save(matelasInserted);
-        return "inserted";
+    @GetMapping("/form")
+    public ModelAndView getForm() {
+        return new ModelAndView("matelas/form");
     }
+    
+    @PostMapping
+    public String insert(@ModelAttribute MatelasDTO bloc) {
+        matelasRepository.save(bloc.createMatelas());
+        return "/transformation/form";
+    }
+    
 }
