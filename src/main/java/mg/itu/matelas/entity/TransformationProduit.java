@@ -36,6 +36,10 @@ public class TransformationProduit {
     @JsonView({ViewEntity.Public.class})
     private double prixUnitaire;
 
+    @Column(name="prix_revient")
+    @JsonView({ViewEntity.Public.class})
+    private double prixRevient;
+
     @JsonView({ViewEntity.Public.class})
     private int nombre;
 
@@ -56,6 +60,10 @@ public class TransformationProduit {
             throw new RuntimeException("Les prix unitaires ne peuvent pas etre negatif ou nulle");
         }
         this.prixUnitaire=prixUnitaire;
+    }
+
+    public void setPrixRevient(Matelas bloc){
+        this.prixRevient=bloc.getPrixUnitaire()*this.getProduit().getVolume()/bloc.getVolume();
     }
 
     public void setTransformation(Transformation transformation){

@@ -28,7 +28,18 @@ public class MatelasService {
         return matelas;
     }
 
+    public Matelas save(Matelas matelas)throws Exception{
+        return matelasRepository.save(matelas);
+    }
+
     public List<Matelas> findUsuel(){
         return matelasRepository.findFormUsuel();
+    }
+    public List<Matelas> findBloc(){
+        return matelasRepository.findBloc();
+    }
+
+    public Matelas findById(Long id){
+        return matelasRepository.findById(id).orElseThrow(()->new RuntimeException("Bloc non trouve"));
     }
 }

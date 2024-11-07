@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @Data
 public class MatelasDTO {
+    private Long idMatelas;
     private String matelas;
     private float longueur;
     private float largeur;

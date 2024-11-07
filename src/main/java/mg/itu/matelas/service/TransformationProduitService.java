@@ -36,6 +36,7 @@ public class TransformationProduitService {
             transformationProduit.setNombre(transformationProduitDTO.getNombre());
             transformationProduit.setTransformation(transformation);
             transformationProduit.setPrixUnitaire(produit.getPrixUnitaire());
+            transformationProduit.setPrixRevient(transformation.getBloc());
             //transformationProduit=transformationProduitRepository.save(transformationProduit);
             transformationProduits.add(transformationProduit);
         }

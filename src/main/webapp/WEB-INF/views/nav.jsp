@@ -21,6 +21,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/mvt_stock">Voir stock</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/matelas/list/blocs">Liste blocs</a>
+        </li>
       </ul>
     </div>
   </div>

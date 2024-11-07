@@ -1,6 +1,7 @@
 <%@ page import="mg.itu.matelas.dto.BeneficeDTO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="mg.itu.matelas.dto.SommeBenefice" %><%--
+<%@ page import="mg.itu.matelas.dto.SommeBenefice" %>
+<%@ page import="java.text.DecimalFormat" %><%--
   Created by IntelliJ IDEA.
   User: ryrab
   Date: 06/11/2024
@@ -10,6 +11,7 @@
 <%
     List<BeneficeDTO> benefices=(List<BeneficeDTO>) request.getAttribute("benefices");
     SommeBenefice sommeBenefice=(SommeBenefice) request.getAttribute("sommeBenefice");
+    DecimalFormat df = new DecimalFormat("#");
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -34,16 +36,16 @@
                 %>
                 <tr>
                     <td><%= benefices.get(i).getRemarque() %></td>
-                    <td><%= benefices.get(i).getPrixVente() %></td>
-                    <td><%= benefices.get(i).getPrixRevient() %></td>
-                    <td><%= benefices.get(i).getBeneficeTheorique() %></td>
+                    <td><%= df.format(benefices.get(i).getPrixVente()) %></td>
+                    <td><%= df.format(benefices.get(i).getPrixRevient()) %></td>
+                    <td><%= df.format(benefices.get(i).getBeneficeTheorique()) %></td>
                 </tr>
                 <% } %>
                 <tr>
                     <td>Somme</td>
-                    <td><%= sommeBenefice.getPrixVente() %></td>
-                    <td><%= sommeBenefice.getPrixRevient() %></td>
-                    <td><%= sommeBenefice.getBeneficeTheorique() %></td>
+                    <td><%= df.format(sommeBenefice.getPrixVente()) %></td>
+                    <td><%= df.format(sommeBenefice.getPrixRevient()) %></td>
+                    <td><%= df.format(sommeBenefice.getBeneficeTheorique()) %></td>
                 </tr>
             </table>
         </div>
