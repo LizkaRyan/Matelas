@@ -13,6 +13,8 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import mg.itu.matelas.other.ViewEntity;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @Table(name="mvt_stock")
@@ -32,6 +34,10 @@ public class MvtStock {
     private int entree;
     @JsonView({ViewEntity.Public.class})
     private int sortie;
+
+    @Column(name = "date_mvt_stock")
+    @JsonView({ViewEntity.Public.class})
+    private LocalDate dateMvtStock;
     
     @Column(name="prix_unitaire")
     @JsonView({ViewEntity.Public.class})
@@ -45,22 +51,25 @@ public class MvtStock {
         this.setEntree(produit.getNombre());
         this.setSortie(0);
         this.setMatelas(produit.getProduit());
+        this.setDateMvtStock(produit.getTransformation().getDateTransformation());
         this.setPrixUnitaire(produit.getProduit().getPrixUnitaire());
     }
 
-    public static MvtStock entreeBloc(Matelas matelas){
+    public static MvtStock entreeBloc(Matelas matelas,LocalDate dateInsertion){
         MvtStock mvtStock=new MvtStock();
         mvtStock.setEntree(1);
         mvtStock.setSortie(0);
         mvtStock.setMatelas(matelas);
+        mvtStock.setDateMvtStock(dateInsertion);
         mvtStock.setPrixUnitaire(matelas.getPrixUnitaire());
         return mvtStock;
     }
-    public static MvtStock sortieBloc(Matelas matelas){
+    public static MvtStock sortieBloc(Matelas matelas,LocalDate dateInsertion){
         MvtStock mvtStock=new MvtStock();
         mvtStock.setEntree(0);
         mvtStock.setSortie(1);
         mvtStock.setMatelas(matelas);
+        mvtStock.setDateMvtStock(dateInsertion);
         mvtStock.setPrixUnitaire(matelas.getPrixUnitaire());
         return mvtStock;
     }

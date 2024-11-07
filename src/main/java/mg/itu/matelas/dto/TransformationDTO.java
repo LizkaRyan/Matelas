@@ -1,5 +1,6 @@
 package mg.itu.matelas.dto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Data;
@@ -11,6 +12,7 @@ public class TransformationDTO {
     private float longueurReste;
     private float largeurReste;
     private float epaisseurReste;
+    private LocalDate dateTransformation;
 
     public double getVolumeReste(){
         return longueurReste*largeurReste*epaisseurReste;

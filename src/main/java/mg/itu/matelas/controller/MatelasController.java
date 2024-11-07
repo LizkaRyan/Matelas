@@ -1,5 +1,6 @@
 package mg.itu.matelas.controller;
 
+import mg.itu.matelas.service.MatelasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import mg.itu.matelas.repository.MatelasRepository;
 @RequestMapping("/matelas")
 public class MatelasController {
     @Autowired
-    private MatelasRepository matelasRepository;
+    private MatelasService matelasService;
 
     @GetMapping("/form")
     public ModelAndView getForm() {
@@ -26,7 +27,7 @@ public class MatelasController {
     
     @PostMapping
     public String insert(@ModelAttribute MatelasDTO bloc) throws Exception{
-        matelasRepository.save(bloc.createMatelas());
+        matelasService.save(bloc);
         return "redirect:/transformation/form";
     }
     

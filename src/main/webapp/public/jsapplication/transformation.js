@@ -21,6 +21,7 @@ TransformationApp.controller('TransformationController', function($scope,$window
     }
 
     $scope.submitForm = function() {
+        $scope.transformation.dateTransformation=document.getElementById("date").value.split('T')[0];
         console.log("Sending data:", JSON.stringify($scope.transformation)); // Afficher le JSON dans la console
         $http.post('/transformation/rest', $scope.transformation)
             .then(function(response) {

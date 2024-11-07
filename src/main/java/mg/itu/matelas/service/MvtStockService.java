@@ -32,9 +32,7 @@ public class MvtStockService {
             mvtStocks.add(mvtStockRepository.save(mvtStock));
         }
         //Insertion mouvement stock bloc
-        MvtStock entreeBloc=MvtStock.entreeBloc(transformation.getBloc());
-        mvtStocks.add(mvtStockRepository.save(entreeBloc));
-        MvtStock sortieBloc=MvtStock.sortieBloc(transformation.getBloc());
+        MvtStock sortieBloc=MvtStock.sortieBloc(transformation.getBloc(),transformation.getDateTransformation());
         mvtStocks.add(mvtStockRepository.save(sortieBloc));
         return mvtStocks;
     }

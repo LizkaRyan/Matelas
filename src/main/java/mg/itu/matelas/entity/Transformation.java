@@ -1,5 +1,6 @@
 package mg.itu.matelas.entity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,13 @@ public class Transformation {
     @Column(name="id_transformation")
     @JsonView({ViewEntity.Public.class})
     private Long idTransformation;
+
+    @JsonView({ViewEntity.Public.class})
+    private String remarque;
+
+    @Column(name="date_transformation")
+    @JsonView({ViewEntity.Public.class})
+    private LocalDate dateTransformation;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_bloc")

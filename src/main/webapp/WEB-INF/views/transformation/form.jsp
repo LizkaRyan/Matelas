@@ -60,6 +60,12 @@
                         <label for="floatingInput">Epaisseur</label>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="form-floating mb-3">
+                        <input type="date" id="date" ng-model="transformation.dateTransformation" class="form-control" id="floatingInput" placeholder="designation">
+                        <label for="floatingInput">Date transformation</label>
+                    </div>
+                </div>
                 <div class="row" ng-repeat="transformationProduit in transformation.transformationProduits">
                     <div class="form-floating mb-3">
                         <input type="number" ng-model="transformationProduit.nombre" class="form-control" id="floatingInput" placeholder="designation">

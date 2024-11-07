@@ -48,7 +48,7 @@ public class TransformationProduit {
         if(nombre<0){
             throw new RuntimeException("Nombre négatif ne peut pas etre accepte");
         }
-        this.setNombre(nombre);
+        this.nombre=nombre;
     }
 
     public void setPrixUnitaire(double prixUnitaire){

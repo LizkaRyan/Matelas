@@ -1,5 +1,7 @@
 package mg.itu.matelas.service;
 
+import mg.itu.matelas.dto.MatelasDTO;
+import mg.itu.matelas.entity.MvtStock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +16,16 @@ public class MatelasService {
     @Autowired
     MatelasRepository matelasRepository;
 
+    @Autowired
+    MvtStockService mvtStockService;
+
     @Transactional
-    public Matelas save(Matelas matelasInserted){
-        Matelas matelas=matelasRepository.findByDimension(matelasInserted.getLongueur(), matelasInserted.getLargeur(), matelasInserted.getEpaisseur()).orElse(null);
-        if(matelas!=null){
-            return matelas;
-        }
-        return matelasRepository.save(matelas);
+    public Matelas save(MatelasDTO matelasInserted)throws Exception{
+        Matelas matelas=matelasInserted.createMatelas();
+        matelas=matelasRepository.save(matelas);
+        MvtStock mvtStock=MvtStock.entreeBloc(matelas,matelasInserted.getDateInsertion());
+        mvtStockService.save(mvtStock);
+        return matelas;
     }
 
     public List<Matelas> findUsuel(){

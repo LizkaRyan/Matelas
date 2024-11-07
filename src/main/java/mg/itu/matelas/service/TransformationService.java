@@ -49,6 +49,7 @@ public class TransformationService {
         Transformation transformation=new Transformation();
         transformation.setBloc(bloc);
         transformation.setReste(reste);
+        transformation.setDateTransformation(transformationDTO.getDateTransformation());
 
         // Insertion transformation produit
         List<TransformationProduit> transformationProduits=transformationProduitService.save(transformationDTO.getTransformationProduits(), transformation);
@@ -96,8 +97,9 @@ public class TransformationService {
         }
         sommeVolume+=transformation.getReste().getVolume();
         double volumePerdu=transformation.getBloc().getVolume()-sommeVolume;
-        if(volumePerdu>transformation.getBloc().getVolume()*transformationConfig.getPercentage()/100.0){
-            throw new RuntimeException("Trop de perdu");
+        double volumePercented=transformation.getBloc().getVolume()*transformationConfig.getPercentage()/100.0;
+        if(volumePerdu>volumePercented){
+            throw new RuntimeException("Trop de perdu "+transformationConfig.getPercentage()/100.0+"% de "+transformation.getBloc().getVolume()+" = "+volumePercented+" alors que le perdu est "+volumePerdu);
         }
     }
 }

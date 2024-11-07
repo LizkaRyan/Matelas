@@ -61,6 +61,12 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="form-floating mb-3">
+                        <input type="date" name="dateInsertion" class="form-control" id="floatingInput" placeholder="designation">
+                        <label for="floatingInput">Date</label>
+                    </div>
+                </div>
+                <div class="row">
                     <button class="btn btn-primary">Valider</button>
                 </div>
             </form>
