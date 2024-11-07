@@ -18,9 +18,9 @@ public interface MatelasRepository extends JpaRepository<Matelas, Long> {
     @Query("select m from Matelas m join m.typeMatelas t where t.typeMatelas='Usuel'")
     public List<Matelas> findFormUsuel();
 
-    @Query("select m from Matelas m join m.typeMatelas t where t.typeMatelas='Bloc' and m.etat=2")
-    public List<Matelas> findBloc();
+    @Query("select m from Matelas m join m.typeMatelas t where t.typeMatelas='Bloc' and m.etat=1")
+    public List<Matelas> findBlocNonUtilise();
 
-    @Query("select m from Matelas m join m.typeMatelas t where t.typeMatelas='Reste' and m.etat=2")
+    @Query("select m from Matelas m join m.typeMatelas t where t.typeMatelas='Reste' and m.etat=1")
     public List<Matelas> findReste();
 }

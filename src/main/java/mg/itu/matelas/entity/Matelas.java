@@ -24,6 +24,7 @@ public class Matelas {
     @JsonView({ViewEntity.Public.class})
     private Long idMatelas;
 
+    @JsonView({ViewEntity.Public.class})
     String matelas;
 
     @ManyToOne(fetch=FetchType.LAZY)
@@ -35,34 +36,60 @@ public class Matelas {
     private Matelas origine;
 
     @JsonView({ViewEntity.Public.class})
-    private double longueur;
+    private float longueur;
     @JsonView({ViewEntity.Public.class})
-    private double largeur;
+    private float largeur;
     @JsonView({ViewEntity.Public.class})
-    private double epaisseur;
+    private float epaisseur;
 
     @Column(name="prix_unitaire")
     @JsonView({ViewEntity.Public.class})
-    private double prixUnitaire;
+    private float prixUnitaire;
 
     @JsonView({ViewEntity.Public.class})
     private int etat=ConstanteEtat.NON_UTILISE;
 
     @JsonView({ViewEntity.Public.class})
-    public double getVolume(){
+    public float getVolume(){
         return longueur*largeur*epaisseur;
     }
 
     @JsonView({ViewEntity.Public.class})
-    public double getRapportVolume(){
+    public float getRapportVolume(){
         return this.prixUnitaire/this.getVolume();
     }
 
-    public double getPrixUnitaireByOrigine(Matelas origine){
+    public float getPrixUnitaireByOrigine(Matelas origine){
         return this.getVolume()*origine.getPrixUnitaire()/origine.getVolume();
     }
 
-    public void setReste(TransformationDTO transformationDTO,Matelas origine){
+    public void setLongueur(float longueur)throws RuntimeException{
+        if(longueur<=0){
+            throw new RuntimeException("Longueur negatif ou nulle ne peut pas etre accepte");
+        }
+        this.longueur=longueur;
+    }
+    public void setLargeur(float largeur)throws RuntimeException{
+        if(largeur<=0){
+            throw new RuntimeException("Largeur negatif ou nulle ne peut pas etre accepte");
+        }
+        this.largeur=largeur;
+    }
+    public void setEpaisseur(float epaisseur)throws RuntimeException{
+        if(epaisseur<=0){
+            throw new RuntimeException("Epaisseur negatif ou nulle ne peut pas etre accepte");
+        }
+        this.epaisseur=epaisseur;
+    }
+
+    public void setPrixUnitaire(float prixUnitaire)throws RuntimeException{
+        if(prixUnitaire<=0){
+            throw new RuntimeException("Prix unitaire negaitif ou nulle ne peut pas etre accepte");
+        }
+        this.prixUnitaire=prixUnitaire;
+    }
+
+    public void setReste(TransformationDTO transformationDTO,Matelas origine)throws Exception{
         this.setOrigine(origine);
         this.setMatelas("Reste bloc "+origine.getIdMatelas());
         this.setEpaisseur(transformationDTO.getEpaisseurReste());

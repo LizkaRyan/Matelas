@@ -1,6 +1,8 @@
 package mg.itu.matelas.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +26,22 @@ public class Prediction implements Serializable{
     private double prixRapportVolume;
 
     protected void setNombreCreer(){
-        this.setNombreCreer((int)(this.bloc.getVolume()/this.usuel.getVolume()));
+        double valeur=(this.bloc.getVolume()/this.usuel.getVolume());
+        System.out.println("Valeur "+valeur);
+        BigDecimal bd = new BigDecimal(valeur).setScale(2, RoundingMode.HALF_UP);
+        this.setNombreCreer((int)bd.doubleValue());
     }
     
     protected void setVolumeRestant(){
-        this.setVolumeRestant(this.bloc.getVolume()%this.usuel.getVolume());
+        double valeur=this.bloc.getVolume()-(this.getNombreCreer()*this.usuel.getVolume());
+        BigDecimal bd = new BigDecimal(valeur).setScale(2, RoundingMode.HALF_UP);
+        this.setVolumeRestant(bd.doubleValue());
     }
 
     protected void setPrixRapportVolume(){
-        this.setPrixRapportVolume(this.usuel.getRapportVolume());
+        double valeur=this.usuel.getRapportVolume();
+        BigDecimal bd = new BigDecimal(valeur).setScale(2, RoundingMode.HALF_UP);
+        this.setPrixRapportVolume(bd.doubleValue());
     }
 
     public Prediction(Matelas bloc,Matelas usuel){

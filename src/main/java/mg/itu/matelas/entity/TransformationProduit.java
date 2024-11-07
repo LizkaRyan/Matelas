@@ -44,6 +44,20 @@ public class TransformationProduit {
         this.id.setIdProduit(matelas.getIdMatelas());
     }
 
+    public void setNombre(int nombre)throws RuntimeException{
+        if(nombre<0){
+            throw new RuntimeException("Nombre négatif ne peut pas etre accepte");
+        }
+        this.setNombre(nombre);
+    }
+
+    public void setPrixUnitaire(double prixUnitaire){
+        if(prixUnitaire<=0){
+            throw new RuntimeException("Les prix unitaires ne peuvent pas etre negatif ou nulle");
+        }
+        this.prixUnitaire=prixUnitaire;
+    }
+
     public void setTransformation(Transformation transformation){
         this.transformation=transformation;
         this.id.setIdTransformation(transformation.getIdTransformation());

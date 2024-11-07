@@ -1,4 +1,5 @@
-<%@ page import=""%>
+<%@ page import="mg.itu.matelas.entity.Matelas" %>
+<%@ page import="java.util.List" %>
 <%
     List<Matelas> matelas=(List<Matelas>)request.getAttribute("blocs");
 %>

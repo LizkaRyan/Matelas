@@ -3,6 +3,7 @@ package mg.itu.matelas.service;
 import java.util.HashMap;
 import java.util.List;
 
+import mg.itu.matelas.config.TransformationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,9 @@ public class TransformationService {
     @Autowired
     private MvtStockService mvtStockService;
 
+    @Autowired
+    private TransformationConfig transformationConfig;
+
     @Transactional
     public Transformation save(TransformationDTO transformationDTO)throws Exception{
         Matelas bloc=matelasRepository.findById(transformationDTO.getIdBloc()).orElseThrow(()->new RuntimeException("Bloc non retrouve"));
@@ -47,9 +51,10 @@ public class TransformationService {
         transformation.setReste(reste);
 
         // Insertion transformation produit
-        List<TransformationProduit> transformationProduits=transformationProduitService.save(transformationDTO.getTransformationProduit(), transformation);
+        List<TransformationProduit> transformationProduits=transformationProduitService.save(transformationDTO.getTransformationProduits(), transformation);
         transformation.setProduit(transformationProduits);
 
+        this.controller(transformation);
         transformation=transformationRepository.save(transformation);
         // Insertion mouvement stock
         mvtStockService.save(transformation);
@@ -68,11 +73,31 @@ public class TransformationService {
         Matelas bloc=matelasRepository.findById(transformation.getReste().getIdMatelas()).orElseThrow(()->new RuntimeException("Bloc non retrouve"));
         valiny.put("MinPerte",Prediction.getMinPerte(usuels, bloc));
         valiny.put("Optimiste",Prediction.getOptimiste(usuels, bloc));
-        valiny.put("benefice",getBenefice(idTransformation));
+        valiny.put("benefice",getBenefice());
         return valiny;
     }
 
-    public BeneficeDTO getBenefice(Long idTransformation){
-        return transformationRepository.getBeneficeTheorique(idTransformation);
+    public Transformation findTransformationWithReste(Long idTransformation){
+        Transformation transformation=transformationRepository.findById(idTransformation).orElseThrow(()->new RuntimeException("Transformation non trouve"));
+        if(transformation.getReste()==null){
+            throw new RuntimeException("Ce transformation n'a pas eu de reste");
+        }
+        return transformation;
+    }
+
+    public List<BeneficeDTO> getBenefice(){
+        return transformationRepository.getBeneficeTheorique();
+    }
+
+    public void controller(Transformation transformation){
+        double sommeVolume=0;
+        for (int i = 0; i < transformation.getProduit().size(); i++) {
+            sommeVolume+=transformation.getProduit().get(i).getNombre()*transformation.getProduit().get(i).getProduit().getVolume();
+        }
+        sommeVolume+=transformation.getReste().getVolume();
+        double volumePerdu=transformation.getBloc().getVolume()-sommeVolume;
+        if(volumePerdu>transformation.getBloc().getVolume()*transformationConfig.getPercentage()/100.0){
+            throw new RuntimeException("Trop de perdu");
+        }
     }
 }

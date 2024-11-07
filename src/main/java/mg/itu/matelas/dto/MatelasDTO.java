@@ -7,12 +7,12 @@ import mg.itu.matelas.entity.TypeMatelas;
 @Data
 public class MatelasDTO {
     private String matelas;
-    private double longueur;
-    private double largeur;
-    private double epaisseur;
-    private double prixUnitaire;
+    private float longueur;
+    private float largeur;
+    private float epaisseur;
+    private float prixUnitaire;
 
-    public Matelas createMatelas(){
+    public Matelas createMatelas()throws Exception{
         Matelas matelas=new Matelas();
         matelas.setMatelas(this.matelas);
         matelas.setLongueur(longueur);

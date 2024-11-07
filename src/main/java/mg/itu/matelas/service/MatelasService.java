@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import mg.itu.matelas.entity.Matelas;
 import mg.itu.matelas.repository.MatelasRepository;
 
+import java.util.List;
+
 @Service
 public class MatelasService {
     @Autowired
@@ -19,5 +21,9 @@ public class MatelasService {
             return matelas;
         }
         return matelasRepository.save(matelas);
+    }
+
+    public List<Matelas> findUsuel(){
+        return matelasRepository.findFormUsuel();
     }
 }

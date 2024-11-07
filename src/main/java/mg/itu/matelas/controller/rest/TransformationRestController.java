@@ -26,8 +26,17 @@ public class TransformationRestController {
     
     @PostMapping
     @JsonView(ViewEntity.Full.class)
-    public Transformation getMethodName(@RequestBody TransformationDTO transformation)throws Exception {
-        return transformationService.save(transformation);
+    public HashMap<String,Object> getMethodName(@RequestBody TransformationDTO transformation)throws Exception {
+        HashMap<String,Object> valiny=new HashMap<String,Object>();
+        valiny.put("status",200);
+        try {
+            valiny.put("answer",transformationService.save(transformation));
+        }
+        catch (Exception ex){
+            valiny.put("status",500);
+            valiny.put("answer",ex.getMessage());
+        }
+        return valiny;
     }
     @GetMapping("/bloc/reste/{id}")
     @JsonView(ViewEntity.Full.class)

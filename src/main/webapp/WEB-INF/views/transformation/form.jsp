@@ -20,45 +20,50 @@
       padding: 5%;
       margin-top: 5%;
     }
-  </style>
+</style>
+<script src="/public/angularJS/angular.min.js"></script>
 <body>
     <jsp:include page="../nav.jsp" />
     <div class="container">
-        <div class="form">
-            <form action="/transformation" method="post">
+        <div class="form" ng-app="TransformationApp" ng-controller="TransformationController">
+            <form ng-submit="submitForm()" method="post">
+                <div class="row mb-3">
+                    <h6 style="color: red">{{message}}</h6>
+                </div>
                 <div class="row mb-3">
                     <h5>Formulaire d'insertion de transformation</h5>
                 </div>
                 <div class="row">
                     <div class="form-floating mb-3">
-                        <select class="form-select" aria-label="Default select example">
+                        <select ng-model="transformation.idBloc" class="form-select" aria-label="Default select example">
                             <% for(int i=0;i<blocs.size();i++){ %>
                             <option value="<%= blocs.get(i).getIdMatelas() %>"><%= blocs.get(i).getMatelas() %></option>
+                            <% } %>
                         </select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-floating mb-3">
-                        <input type="number" name="longueurReste" class="form-control" id="floatingInput" placeholder="designation">
+                        <input type="number" step="0.01" ng-model="transformation.longueurReste" class="form-control" id="floatingInput" placeholder="designation">
                         <label for="floatingInput">Longueur</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-floating mb-3">
-                        <input type="number" name="restLargeur" class="form-control" id="floatingInput" placeholder="designation">
+                        <input type="number" step="0.01" ng-model="transformation.largeurReste" class="form-control" id="floatingInput" placeholder="designation">
                         <label for="floatingInput">Largeur</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-floating mb-3">
-                        <input type="number" name="epaisseur" class="form-control" id="floatingInput" placeholder="designation">
+                        <input type="number" step="0.01" ng-model="transformation.epaisseurReste" class="form-control" id="floatingInput" placeholder="designation">
                         <label for="floatingInput">Epaisseur</label>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" ng-repeat="transformationProduit in transformation.transformationProduits">
                     <div class="form-floating mb-3">
-                        <input type="number" name="prixUnitaire" class="form-control" id="floatingInput" placeholder="designation">
-                        <label for="floatingInput">Prix de revient</label>
+                        <input type="number" ng-model="transformationProduit.nombre" class="form-control" id="floatingInput" placeholder="designation">
+                        <label for="floatingInput">{{ transformationProduit.matelas }}</label>
                     </div>
                 </div>
                 <div class="row">
@@ -68,4 +73,5 @@
         </div>
     </div>
 </body>
+<script src="/public/jsapplication/transformation.js"></script>
 </html>

@@ -25,9 +25,9 @@ public class MatelasController {
     }
     
     @PostMapping
-    public String insert(@ModelAttribute MatelasDTO bloc) {
+    public String insert(@ModelAttribute MatelasDTO bloc) throws Exception{
         matelasRepository.save(bloc.createMatelas());
-        return "/transformation/form";
+        return "redirect:/transformation/form";
     }
     
 }

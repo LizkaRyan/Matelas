@@ -3,6 +3,8 @@ package mg.itu.matelas.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import mg.itu.matelas.dto.EtatStock;
+import mg.itu.matelas.entity.Matelas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,15 @@ public class MvtStockService {
             mvtStocks.add(mvtStockRepository.save(mvtStock));
         }
         //Insertion mouvement stock bloc
-        
+        MvtStock entreeBloc=MvtStock.entreeBloc(transformation.getBloc());
+        mvtStocks.add(mvtStockRepository.save(entreeBloc));
+        MvtStock sortieBloc=MvtStock.sortieBloc(transformation.getBloc());
+        mvtStocks.add(mvtStockRepository.save(sortieBloc));
         return mvtStocks;
     }
+
+    public List<MvtStock> findAll(){
+        return mvtStockRepository.findAll();
+    }
+    public List<EtatStock> findEtatStock(){return mvtStockRepository.findEtatStock();}
 }
