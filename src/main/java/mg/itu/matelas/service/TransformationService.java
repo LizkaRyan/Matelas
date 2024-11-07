@@ -49,6 +49,7 @@ public class TransformationService {
         Transformation transformation=new Transformation();
         transformation.setBloc(bloc);
         transformation.setReste(reste);
+        transformation.setRemarque(transformationDTO.getRemarque());
         transformation.setDateTransformation(transformationDTO.getDateTransformation());
 
         // Insertion transformation produit

@@ -13,6 +13,7 @@ public class TransformationDTO {
     private float largeurReste;
     private float epaisseurReste;
     private LocalDate dateTransformation;
+    private String remarque;
 
     public double getVolumeReste(){
         return longueurReste*largeurReste*epaisseurReste;

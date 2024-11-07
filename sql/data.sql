@@ -9,6 +9,8 @@ insert into matelas(matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_typ
     ('Usuel 3',2,1.5,0.75,32500,1,2,null),
     ('Usuel 4',0.2,0.2,0.1,50,1,2,null);
 
+insert into mvt_stock(entree,sortie,prix_unitaire,date_mvt_stock,id_matelas) values(1,0,1000000,NOW(),1);
+
 -- insert into transformation(id_bloc) values(1);
 
 --insert into transformation_produit(id_transformation,id_produit,nombre,prix_unitaire) values

@@ -11,4 +11,6 @@ public interface BeneficeDTO {
     double getPrixVente();
     @JsonView(ViewEntity.Full.class)
     double getBeneficeTheorique();
+    @JsonView(ViewEntity.Full.class)
+    String getRemarque();
 }

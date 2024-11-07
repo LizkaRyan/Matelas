@@ -1,7 +1,7 @@
-with vente as (select sum(tp.nombre*tp.prix_unitaire) as prix_vente,t.id_bloc as id_bloc 
+with vente as (select sum(tp.nombre*tp.prix_unitaire) as prix_vente,t.id_bloc as id_bloc,t.remarque
 from transformation_produit as tp 
 natural join transformation as t
-group by t.id_bloc)
-select sum(prix_vente) as prix_vente,m.prix_unitaire,sum(prix_vente)-m.prix_unitaire as benefice_theorique from vente as pv join matelas as m on m.id_matelas=pv.id_bloc group by id_matelas,m.prix_unitaire;
+group by t.id_bloc, t.remarque)
+select sum(prix_vente) as prix_vente,remarque,m.prix_unitaire as prix_revient,sum(prix_vente)-m.prix_unitaire as benefice_theorique from vente as pv join matelas as m on m.id_matelas=pv.id_bloc group by id_matelas,m.prix_unitaire,remarque;
 
 select sum(entree)-sum(sortie) as etat, matelas from mvt_stock natural join matelas group by id_matelas,matelas;

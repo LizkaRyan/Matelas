@@ -33,7 +33,7 @@
                 <% for (int i = 0; i < benefices.size(); i++) {
                 %>
                 <tr>
-                    <td></td>
+                    <td><%= benefices.get(i).getRemarque() %></td>
                     <td><%= benefices.get(i).getPrixVente() %></td>
                     <td><%= benefices.get(i).getPrixRevient() %></td>
                     <td><%= benefices.get(i).getBeneficeTheorique() %></td>

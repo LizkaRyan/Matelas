@@ -44,20 +44,26 @@
                 </div>
                 <div class="row">
                     <div class="form-floating mb-3">
+                        <input type="text" ng-model="transformation.remarque" class="form-control" id="floatingInput" placeholder="designation">
+                        <label for="floatingInput">Remarque</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-floating mb-3">
                         <input type="number" step="0.01" ng-model="transformation.longueurReste" class="form-control" id="floatingInput" placeholder="designation">
-                        <label for="floatingInput">Longueur</label>
+                        <label for="floatingInput">Longueur reste</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-floating mb-3">
                         <input type="number" step="0.01" ng-model="transformation.largeurReste" class="form-control" id="floatingInput" placeholder="designation">
-                        <label for="floatingInput">Largeur</label>
+                        <label for="floatingInput">Largeur reste</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-floating mb-3">
                         <input type="number" step="0.01" ng-model="transformation.epaisseurReste" class="form-control" id="floatingInput" placeholder="designation">
-                        <label for="floatingInput">Epaisseur</label>
+                        <label for="floatingInput">Epaisseur reste</label>
                     </div>
                 </div>
                 <div class="row">
