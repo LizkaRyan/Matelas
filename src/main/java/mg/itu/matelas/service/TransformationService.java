@@ -102,5 +102,8 @@ public class TransformationService {
         if(volumePerdu>volumePercented){
             throw new RuntimeException("Trop de perdu "+transformationConfig.getPercentage()/100.0+"% de "+transformation.getBloc().getVolume()+" = "+volumePercented+" alors que le perdu est "+volumePerdu);
         }
+        if(volumePerdu<0){
+            throw new RuntimeException("La volume du bloc n'est pas suffisante volume perdu = "+volumePerdu);
+        }
     }
 }
