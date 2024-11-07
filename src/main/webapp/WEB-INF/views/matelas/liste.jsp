@@ -27,7 +27,8 @@
       <tr>
         <th>Matelas</th>
         <th>Prix de revient</th>
-        <th>Origine</th>
+        <th>Parent</th>
+        <th>Ancetre</th>
         <th>Modifier</th>
       </tr>
       <% for (int i = 0; i < blocs.size(); i++) {
@@ -39,7 +40,13 @@
         <td><%= blocs.get(i).getOrigine().getMatelas() %></td>
         <% } %>
         <% if(blocs.get(i).getOrigine()==null) {%>
-        <td>Originel</td>
+        <td>Ancetre</td>
+        <% } %>
+        <% if(blocs.get(i).getAncestor()!=null) {%>
+        <td><%= blocs.get(i).getAncestor().getMatelas() %></td>
+        <% } %>
+        <% if(blocs.get(i).getAncestor()==null) {%>
+        <td>Ancetre</td>
         <% } %>
         <td><a href="/matelas/update/<%= blocs.get(i).getIdMatelas() %>">Modifier prix</a></td>
       </tr>

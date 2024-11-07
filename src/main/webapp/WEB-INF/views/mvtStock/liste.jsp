@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="mg.itu.matelas.entity.MvtStock" %>
-<%@ page import="mg.itu.matelas.dto.EtatStock" %><%--
+<%@ page import="mg.itu.matelas.dto.EtatStock" %>
+<%@ page import="java.text.DecimalFormat" %><%--
   Created by IntelliJ IDEA.
   User: ryrab
   Date: 06/11/2024
@@ -10,6 +11,7 @@
 <%
   List<MvtStock> mvtStocks=(List<MvtStock>) request.getAttribute("mvtStocks");
   List<EtatStock> etatStocks=(List<EtatStock>) request.getAttribute("etatStocks");
+  DecimalFormat df = new DecimalFormat("#");
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -28,6 +30,8 @@
         <th>#</th>
         <th>Entree</th>
         <th>Sortie</th>
+        <th>Prix de revient</th>
+        <th>Prix de vente</th>
         <th>Matelas</th>
       </tr>
       <% for (int i = 0; i < mvtStocks.size(); i++) {
@@ -36,6 +40,8 @@
         <td></td>
         <td><%= mvtStocks.get(i).getEntree() %></td>
         <td><%= mvtStocks.get(i).getSortie() %></td>
+        <td><%= df.format(mvtStocks.get(i).getPrixRevient()) %></td>
+        <td><%= df.format(mvtStocks.get(i).getPrixUnitaire()) %></td>
         <td><%= mvtStocks.get(i).getMatelas().getMatelas() %></td>
       </tr>
       <% } %>

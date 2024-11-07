@@ -5,6 +5,7 @@ ALTER TABLE mvt_stock DROP CONSTRAINT mvt_stock_id_matelas_fkey;
 ALTER TABLE transformation DROP CONSTRAINT transformation_id_bloc_fkey;
 ALTER TABLE transformation DROP CONSTRAINT transformation_id_reste_fkey;
 ALTER TABLE matelas DROP CONSTRAINT matelas_id_origine_fkey;
+ALTER TABLE matelas DROP CONSTRAINT matelas_id_ancestor_fkey;
 ALTER TABLE matelas DROP CONSTRAINT matelas_id_type_matelas_fkey;
 
 -- Supprimer les données des tables dans l'ordre des dépendances
@@ -25,5 +26,6 @@ ALTER TABLE transformation_produit ADD CONSTRAINT transformation_produit_id_tran
 
 ALTER SEQUENCE type_matelas_id_type_matelas_seq RESTART WITH 1;
 ALTER SEQUENCE matelas_id_matelas_seq RESTART WITH 1;
+ALTER SEQUENCE matelas_id_ancestor_seq RESTART WITH 1;
 ALTER SEQUENCE transformation_id_transformation_seq RESTART WITH 1;
 ALTER SEQUENCE mvt_stock_id_mvt_stock_seq RESTART WITH 1;

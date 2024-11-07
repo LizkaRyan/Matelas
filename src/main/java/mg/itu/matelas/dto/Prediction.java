@@ -85,10 +85,10 @@ public class Prediction implements Serializable{
 
     public static Prediction getMinPerte(List<Prediction> predictions){
         Prediction valiny=null;
-        double min=9999999;
+        double min=999_999_999;
         for(Prediction prediction : predictions){
-            if(min>prediction.getVolumeRestant()){
-                min=prediction.getVolumeRestant();
+            if(min>prediction.getUsuel().getVolume()){
+                min=prediction.getUsuel().getVolume();
                 valiny=prediction;
             }
         }

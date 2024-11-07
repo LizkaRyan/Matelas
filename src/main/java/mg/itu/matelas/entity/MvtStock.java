@@ -1,6 +1,9 @@
 package mg.itu.matelas.entity;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonView;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,8 +15,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import mg.itu.matelas.other.ViewEntity;
-
-import java.time.LocalDate;
 
 @Entity
 @Data
@@ -43,24 +44,34 @@ public class MvtStock {
     @JsonView({ViewEntity.Public.class})
     private double prixUnitaire;
 
+    @Column(name="prix_revient")
+    @JsonView({ViewEntity.Public.class})
+    private double prixRevient;
+
     public MvtStock(){
 
     }
 
-    public MvtStock(TransformationProduit produit){
+    public MvtStock(TransformationProduit produit,Matelas bloc){
         this.setEntree(produit.getNombre());
         this.setSortie(0);
         this.setMatelas(produit.getProduit());
         this.setDateMvtStock(produit.getTransformation().getDateTransformation());
         this.setPrixUnitaire(produit.getProduit().getPrixUnitaire());
+        this.setPrixRevient(produit.getProduit().getPrixUnitaireByOrigine(bloc));
     }
 
-    public static MvtStock entreeBloc(Matelas matelas,LocalDate dateInsertion){
+    public static MvtStock entreeBloc(Matelas matelas,LocalDate dateInsertion,Matelas origine){
         MvtStock mvtStock=new MvtStock();
         mvtStock.setEntree(1);
         mvtStock.setSortie(0);
         mvtStock.setMatelas(matelas);
         mvtStock.setDateMvtStock(dateInsertion);
+        double prixRevient=matelas.getPrixUnitaire();
+        if(origine!=null){
+            prixRevient=matelas.getPrixUnitaireByOrigine(origine);
+        }
+        mvtStock.setPrixRevient(prixRevient);
         mvtStock.setPrixUnitaire(matelas.getPrixUnitaire());
         return mvtStock;
     }
@@ -70,7 +81,8 @@ public class MvtStock {
         mvtStock.setSortie(1);
         mvtStock.setMatelas(matelas);
         mvtStock.setDateMvtStock(dateInsertion);
-        mvtStock.setPrixUnitaire(matelas.getPrixUnitaire());
+        mvtStock.setPrixUnitaire(0);
+        mvtStock.setPrixRevient(matelas.getPrixUnitaire());
         return mvtStock;
     }
 }

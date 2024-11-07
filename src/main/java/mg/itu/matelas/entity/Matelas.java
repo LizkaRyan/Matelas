@@ -15,6 +15,9 @@ import mg.itu.matelas.dto.TransformationDTO;
 import mg.itu.matelas.other.ConstanteEtat;
 import mg.itu.matelas.other.ViewEntity;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Entity
 @Data
 public class Matelas {
@@ -34,6 +37,10 @@ public class Matelas {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_origine")
     private Matelas origine;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_ancestor")
+    private Matelas ancestor;
 
     @JsonView({ViewEntity.Public.class})
     private float longueur;
@@ -55,8 +62,10 @@ public class Matelas {
     }
 
     @JsonView({ViewEntity.Public.class})
-    public float getRapportVolume(){
-        return this.prixUnitaire/this.getVolume();
+    public double getRapportVolume(){
+        double valeur=this.prixUnitaire/this.getVolume();
+        BigDecimal bd = new BigDecimal(valeur).setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public float getPrixUnitaireByOrigine(Matelas origine){
@@ -91,6 +100,11 @@ public class Matelas {
 
     public void setReste(TransformationDTO transformationDTO,Matelas origine)throws Exception{
         this.setOrigine(origine);
+        Matelas ancetre=origine;
+        if(origine.getAncestor()!=null){
+            ancetre=origine.getAncestor();
+        }
+        this.setAncestor(ancetre);
         this.setMatelas("Reste bloc "+origine.getIdMatelas());
         this.setEpaisseur(transformationDTO.getEpaisseurReste());
         this.setLongueur(transformationDTO.getLongueurReste());
