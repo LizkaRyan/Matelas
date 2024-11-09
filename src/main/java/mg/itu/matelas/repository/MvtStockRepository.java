@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface MvtStockRepository extends JpaRepository<MvtStock, Long> {
-    @Query(value = "select sum(entree)-sum(sortie) as etat, matelas from mvt_stock natural join matelas group by id_matelas,matelas",nativeQuery = true)
+    @Query(value = "select matelas,sum(entree*prix_revient)/sum(entree) as prix_revient,sum(entree) as etat from mvt_stock natural join matelas where id_type_matelas=2 and sortie=0 group by matelas",nativeQuery = true)
     List<EtatStock> findEtatStock();
 }

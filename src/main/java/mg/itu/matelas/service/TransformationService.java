@@ -96,6 +96,7 @@ public class TransformationService {
         for (int i = 0; i < transformation.getProduit().size(); i++) {
             sommeVolume+=transformation.getProduit().get(i).getNombre()*transformation.getProduit().get(i).getProduit().getVolume();
         }
+        System.out.println(transformation.getReste().getVolume()+" reste");
         sommeVolume+=transformation.getReste().getVolume();
         double volumePerdu=transformation.getBloc().getVolume()-sommeVolume;
         double volumePercented=transformation.getBloc().getVolume()*transformationConfig.getPercentage()/100.0;
@@ -103,7 +104,7 @@ public class TransformationService {
             throw new RuntimeException("Trop de perdu "+transformationConfig.getPercentage()+"% de "+transformation.getBloc().getVolume()+" = "+volumePercented+" alors que le perdu est "+volumePerdu);
         }
         if(volumePerdu<0){
-            throw new RuntimeException("La volume du bloc n'est pas suffisante volume perdu = "+volumePerdu);
+            throw new RuntimeException("La volume du bloc n'est pas suffisante volume perdu = "+volumePerdu+" sommeVolume = "+sommeVolume+" bloc origine "+transformation.getBloc().getVolume());
         }
     }
 }

@@ -53,6 +53,7 @@
         <th>#</th>
         <th>Nombre</th>
         <th>Matelas</th>
+        <th>Prix de revient</th>
       </tr>
       <% for (int i = 0; i < etatStocks.size(); i++) {
       %>
@@ -60,6 +61,7 @@
         <td></td>
         <td><%= etatStocks.get(i).getEtat() %></td>
         <td><%= etatStocks.get(i).getMatelas() %></td>
+        <td><%= etatStocks.get(i).getPrixRevient() %></td>
       </tr>
       <% } %>
     </table>
