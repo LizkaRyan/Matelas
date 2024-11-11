@@ -1,7 +1,10 @@
 package mg.itu.matelas.dto;
 
+import lombok.Setter;
+
 import java.util.List;
 
+@Setter
 public class SommeBenefice implements BeneficeDTO{
     double prixVente;
     double prixRevient;

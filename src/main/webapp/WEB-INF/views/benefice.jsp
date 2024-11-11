@@ -11,6 +11,7 @@
 <%
     List<BeneficeDTO> benefices=(List<BeneficeDTO>) request.getAttribute("benefices");
     SommeBenefice sommeBenefice=(SommeBenefice) request.getAttribute("sommeBenefice");
+    List<SommeBenefice> predictions=(List<SommeBenefice>) request.getAttribute("predictions");
     DecimalFormat df = new DecimalFormat("#");
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -47,6 +48,24 @@
                     <td><%= df.format(sommeBenefice.getPrixRevient()) %></td>
                     <td><%= df.format(sommeBenefice.getBeneficeTheorique()) %></td>
                 </tr>
+            </table>
+        </div>
+        <div class="row mb-3 mt-3">
+            <table class="table table-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Prix de vente</th>
+                    <th>Prix de revient</th>
+                    <th>Benefice theorique</th>
+                </tr>
+                <% for (int i = 0; i < predictions.size(); i++) { %>
+                <tr>
+                    <td><%= predictions.get(i).getRemarque() %></td>
+                    <td><%= df.format(predictions.get(i).getPrixVente()) %></td>
+                    <td><%= df.format(predictions.get(i).getPrixRevient()) %></td>
+                    <td><%= df.format(predictions.get(i).getBeneficeTheorique()) %></td>
+                </tr>
+                <% } %>
             </table>
         </div>
     </div>

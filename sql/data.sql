@@ -3,13 +3,14 @@ insert into type_matelas(type_matelas) values('Usuel');
 insert into type_matelas(type_matelas) values('Reste');
 
 insert into matelas(matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas,id_origine) values
-    ('Bloc 1',10,6,7, 3200000,1,1,null),
-    ('Usuel 1',1.8,1.3,0.5,10000,1,2,null),
-    ('Usuel 2',2.2,1.5,0.5,25000,1,2,null),
-    ('Usuel 3',2,1.5,0.75,32500,1,2,null),
-    ('Usuel 4',0.2,0.2,0.1,50,1,2,null);
+    ('Bloc 1',100,20,10, 2000000,1,1,null),
+    ('Bloc 2',100,40,10, 3000000,1,1,null),
+    ('Usuel 1',16,4,2,20000,1,2,null),
+    ('Usuel 2',10,7,1,12000,1,2,null),
+    ('Usuel 3',5,1,1,600,1,2,null);
 
-insert into mvt_stock(entree,sortie,prix_unitaire,date_mvt_stock,id_matelas,prix_revient) values(1,0,0,NOW(),1,38250000);
+insert into mvt_stock(entree,sortie,prix_unitaire,date_mvt_stock,id_matelas,prix_revient) values(1,0,0,NOW(),1,2000000);
+insert into mvt_stock(entree,sortie,prix_unitaire,date_mvt_stock,id_matelas,prix_revient) values(1,0,0,NOW(),2,3000000);
 
 -- insert into transformation(id_bloc) values(1);
 

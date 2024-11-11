@@ -1,9 +1,11 @@
 package mg.itu.matelas.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import mg.itu.matelas.config.TransformationConfig;
+import mg.itu.matelas.dto.SommeBenefice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,61 @@ public class TransformationService {
 
     @Autowired
     private TransformationConfig transformationConfig;
+
+
+    public List<Transformation> findAll(){
+        return  transformationRepository.findAll();
+    }
+
+    @Transactional
+    public List<SommeBenefice> predictBenefice(SommeBenefice sommeBenefice){
+        List<SommeBenefice> valiny=new ArrayList<SommeBenefice>();
+        List<Transformation> transformations=this.findAll();
+        List<Matelas> usuels=matelasRepository.findFormUsuel();
+        valiny.add(predictBeneficeOptimiste(sommeBenefice,transformations,usuels));
+        valiny.add(predictBeneficeMinPerte(sommeBenefice,transformations,usuels));
+        return valiny;
+    }
+
+    @Transactional
+    public SommeBenefice predictBeneficeMinPerte(SommeBenefice sommeBenefice,List<Transformation> transformations,List<Matelas> usuels){
+        SommeBenefice valiny=new SommeBenefice();
+        //valiny.setBenefice(sommeBenefice.getBeneficeTheorique());
+        valiny.setBenefice(0);
+        valiny.setRemarque("Minimum de perte");
+        //valiny.setPrixVente(sommeBenefice.getPrixVente());
+        valiny.setPrixVente(0);
+        //valiny.setPrixRevient(sommeBenefice.getPrixRevient());
+        valiny.setPrixRevient(0);
+        for (int i = 0; i < transformations.size(); i++) {
+            Matelas bloc=matelasRepository.findById(transformations.get(i).getReste().getIdMatelas()).orElseThrow(()->new RuntimeException("Bloc non retrouve"));
+            Prediction prediction=Prediction.getMinPerte(usuels, bloc);
+            valiny.setPrixVente(valiny.getPrixVente()+(prediction.getNombreCreer()*prediction.getUsuel().getPrixUnitaire()));
+            valiny.setPrixRevient(valiny.getPrixRevient()+(prediction.getNombreCreer()*prediction.getUsuel().getPrixUnitaireByOrigine(bloc)));
+        }
+        valiny.setBenefice(valiny.getPrixVente()- valiny.getPrixRevient());
+        return valiny;
+    }
+
+    @Transactional
+    public SommeBenefice predictBeneficeOptimiste(SommeBenefice sommeBenefice,List<Transformation> transformations,List<Matelas> usuels){
+        SommeBenefice valiny=new SommeBenefice();
+//        valiny.setBenefice(sommeBenefice.getBeneficeTheorique());
+        valiny.setBenefice(0);
+        valiny.setRemarque("Optimiste");
+//        valiny.setPrixVente(sommeBenefice.getPrixVente());
+        valiny.setPrixVente(0);
+        valiny.setPrixRevient(0);
+        //valiny.setPrixRevient(sommeBenefice.getPrixRevient());
+        for (int i = 0; i < transformations.size(); i++) {
+            Matelas bloc=matelasRepository.findById(transformations.get(i).getReste().getIdMatelas()).orElseThrow(()->new RuntimeException("Bloc non retrouve"));
+            Prediction prediction=Prediction.getOptimiste(usuels, bloc);
+            valiny.setPrixVente(valiny.getPrixVente()+(prediction.getNombreCreer()*prediction.getUsuel().getPrixUnitaire()));
+            valiny.setPrixRevient(valiny.getPrixRevient()+(prediction.getNombreCreer()*prediction.getUsuel().getPrixUnitaireByOrigine(bloc)));
+        }
+        valiny.setBenefice(valiny.getPrixVente()- valiny.getPrixRevient());
+        return valiny;
+    }
 
     @Transactional
     public Transformation save(TransformationDTO transformationDTO)throws Exception{
@@ -100,6 +157,15 @@ public class TransformationService {
         sommeVolume+=transformation.getReste().getVolume();
         double volumePerdu=transformation.getBloc().getVolume()-sommeVolume;
         double volumePercented=transformation.getBloc().getVolume()*transformationConfig.getPercentage()/100.0;
+        /*if(transformation.getBloc().getLongueur()<transformation.getReste().getLongueur()){
+            throw new RuntimeException("Longueur du reste doit être inférieur au longueur d'origine");
+        }
+        if(transformation.getBloc().getLargeur()<transformation.getReste().getLargeur()){
+            throw new RuntimeException("Largeur du reste doit être inférieur au longueur d'origine");
+        }
+        if(transformation.getBloc().getEpaisseur()<transformation.getReste().getEpaisseur()){
+            throw new RuntimeException("Epaisseur du reste doit être inférieur au longueur d'origine");
+        }*/
         if(volumePerdu>volumePercented){
             throw new RuntimeException("Trop de perdu "+transformationConfig.getPercentage()+"% de "+transformation.getBloc().getVolume()+" = "+volumePercented+" alors que le perdu est "+volumePerdu);
         }

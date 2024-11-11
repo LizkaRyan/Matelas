@@ -64,6 +64,7 @@ public class Matelas {
     @JsonView({ViewEntity.Public.class})
     public double getRapportVolume(){
         double valeur=this.prixUnitaire/this.getVolume();
+        System.out.println("Division :"+this.prixUnitaire+"/"+this.getVolume()+" = "+valeur);
         BigDecimal bd = new BigDecimal(valeur).setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }

@@ -51,8 +51,10 @@ public class TransformationController {
     public ModelAndView getBenefice(){
         ModelAndView valiny=new ModelAndView("benefice");
         List<BeneficeDTO> benefices=transformationService.getBenefice();
-        valiny.addObject("sommeBenefice", SommeBenefice.sommer(benefices));
+        SommeBenefice sommeBenefice=SommeBenefice.sommer(benefices);
+        valiny.addObject("sommeBenefice", sommeBenefice);
         valiny.addObject("benefices",benefices);
+        valiny.addObject("predictions",transformationService.predictBenefice(sommeBenefice));
         return valiny;
     }
 }

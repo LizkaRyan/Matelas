@@ -27,19 +27,25 @@
                     <th>Mode</th>
                     <th>Usuel</th>
                     <th>Prix rapport volume</th>
-                    <th>Reste</th>
+                    <th>Nombre créé</th>
+                    <th>Reste en volume</th>
+                    <th>Prix de vente théorique</th>
                 </tr>
                 <tr>
                     <td>Minimum de perte</td>
                     <td><%= minPerte.getUsuel().getMatelas() %></td>
                     <td><%= minPerte.getPrixRapportVolume() %></td>
+                    <td><%= minPerte.getNombreCreer() %></td>
                     <td><%= minPerte.getVolumeRestant() %></td>
+                    <td><%= minPerte.getNombreCreer()*minPerte.getUsuel().getPrixUnitaire() %></td>
                 </tr>
                 <tr>
                     <td>Optimiste</td>
                     <td><%= optimiste.getUsuel().getMatelas() %></td>
                     <td><%= optimiste.getPrixRapportVolume() %></td>
+                    <td><%= optimiste.getNombreCreer() %></td>
                     <td><%= optimiste.getVolumeRestant() %></td>
+                    <td><%= optimiste.getNombreCreer()*optimiste.getUsuel().getPrixUnitaire() %></td>
                 </tr>
             </table>
         </div>

@@ -26,6 +26,7 @@
     <table class="table table-striped">
       <tr>
         <th>Matelas</th>
+        <th>Volume</th>
         <th>Prix de revient</th>
         <th>Parent</th>
         <th>Ancetre</th>
@@ -35,6 +36,7 @@
       %>
       <tr>
         <td><%= blocs.get(i).getMatelas() %></td>
+        <td><%= blocs.get(i).getVolume() %></td>
         <td><%= df.format(blocs.get(i).getPrixUnitaire()) %></td>
         <% if(blocs.get(i).getOrigine()!=null) {%>
         <td><%= blocs.get(i).getOrigine().getMatelas() %></td>
