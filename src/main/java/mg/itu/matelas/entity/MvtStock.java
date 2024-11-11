@@ -31,6 +31,11 @@ public class MvtStock {
     @JsonView({ViewEntity.Full.class})
     private Matelas matelas;
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_transformation")
+    @JsonView({ViewEntity.Full.class})
+    private Transformation transformation;
+
     @JsonView({ViewEntity.Public.class})
     private int entree;
     @JsonView({ViewEntity.Public.class})

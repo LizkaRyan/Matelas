@@ -40,8 +40,10 @@ CREATE TABLE mvt_stock(
                           prix_unitaire NUMERIC(12,2)  ,
                           date_mvt_stock DATE,
                           prix_revient NUMERIC(12,2)  ,
+                          id_transformation INTEGER,
                           id_matelas INTEGER NOT NULL,
                           PRIMARY KEY(id_mvt_stock),
+                          FOREIGN KEY(id_transformation) REFERENCES transformation(id_transformation),
                           FOREIGN KEY(id_matelas) REFERENCES matelas(id_matelas)
 );
 

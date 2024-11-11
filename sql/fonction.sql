@@ -50,13 +50,19 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION updateMvtStock(id_transfo BIGINT,pourcent NUMERIC(15,2))
 RETURNS integer AS $$
 DECLARE
-transfo_prod RECORD;
+    transfo_prod RECORD;
     new_price NUMERIC(12,2);
+    transfo RECORD;
+    cout_revient NUMERIC(12,2);
 BEGIN
-FOR transfo_prod in (select * from transformation_produit join matelas on id_produit=id_matelas where id_transformation=id_transfo)
+FOR transfo in (select * from transformation join matelas on id_bloc=id_matelas where transformation.id_transformation=id_transfo)
     LOOP
-        new_price:=transfo_prod.prix_revient*pourcent/100;
-update mvt_stock set prix_revient=new_price where id_matelas=transfo_prod.id_produit;
+        cout_revient:=transfo.prix_unitaire/(transfo.longueur*transfo.largeur*transfo.epaisseur);
+END LOOP;
+FOR transfo_prod in (select * from transformation_produit join matelas on id_produit=id_matelas join transformation on transformation_produit.id_transformation=transformation.id_transformation where transformation.id_transformation=id_transfo)
+    LOOP
+        new_price:=cout_revient*transfo_prod.longueur*transfo_prod.largeur*transfo_prod.epaisseur;
+        update mvt_stock set prix_revient=new_price where id_matelas=transfo_prod.id_produit and id_transformation=id_transfo;
 END LOOP;
 return 0;
 END;

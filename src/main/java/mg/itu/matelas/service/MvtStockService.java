@@ -29,6 +29,7 @@ public class MvtStockService {
         //Insertion mouvement stock produit
         for (TransformationProduit produits : transformation.getProduit()) {
             MvtStock mvtStock=new MvtStock(produits,transformation.getBloc());
+            mvtStock.setTransformation(transformation);
             mvtStocks.add(mvtStockRepository.save(mvtStock));
         }
         //Insertion mouvement stock bloc
