@@ -53,17 +53,41 @@
                         <input type="number" step="0.01" ng-model="transformation.longueurReste" class="form-control" id="floatingInput" placeholder="designation">
                         <label for="floatingInput">Longueur reste</label>
                     </div>
+                    <div class="form-floating mb-3">
+                        <div class="form-floating mb-3">
+                            <select ng-model="transformation.longueurMetrage" class="form-select" aria-label="Default select example">
+                                <option value="0" selected>m</option>
+                                <option value="1">cm</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="form-floating mb-3">
                         <input type="number" step="0.01" ng-model="transformation.largeurReste" class="form-control" id="floatingInput" placeholder="designation">
                         <label for="floatingInput">Largeur reste</label>
                     </div>
+                    <div class="form-floating mb-3">
+                        <div class="form-floating mb-3">
+                            <select ng-model="transformation.largeurMetrage" class="form-select" aria-label="Default select example">
+                                <option value="0" selected>m</option>
+                                <option value="1">cm</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="form-floating mb-3">
                         <input type="number" step="0.01" ng-model="transformation.epaisseurReste" class="form-control" id="floatingInput" placeholder="designation">
                         <label for="floatingInput">Epaisseur reste</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <div class="form-floating mb-3">
+                            <select ng-model="transformation.epaisseurMetrage" class="form-select" aria-label="Default select example">
+                                <option value="0" selected>m</option>
+                                <option value="1">cm</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

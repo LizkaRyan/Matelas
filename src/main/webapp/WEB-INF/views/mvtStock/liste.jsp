@@ -24,6 +24,7 @@
 <body>
 <jsp:include page="../nav.jsp" />
 <div class="container">
+  <h1>ETU002459</h1>
   <div class="row mb-3 mt-3">
     <table class="table table-striped">
       <tr>

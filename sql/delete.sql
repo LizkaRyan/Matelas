@@ -2,6 +2,7 @@
 ALTER TABLE transformation_produit DROP CONSTRAINT transformation_produit_id_produit_fkey;
 ALTER TABLE transformation_produit DROP CONSTRAINT transformation_produit_id_transformation_fkey;
 ALTER TABLE mvt_stock DROP CONSTRAINT mvt_stock_id_matelas_fkey;
+ALTER TABLE mvt_stock DROP CONSTRAINT mvt_stock_id_transformation_fkey;
 ALTER TABLE transformation DROP CONSTRAINT transformation_id_bloc_fkey;
 ALTER TABLE transformation DROP CONSTRAINT transformation_id_reste_fkey;
 ALTER TABLE matelas DROP CONSTRAINT matelas_id_origine_fkey;
@@ -21,6 +22,7 @@ ALTER TABLE matelas ADD CONSTRAINT matelas_id_type_matelas_fkey FOREIGN KEY (id_
 ALTER TABLE transformation ADD CONSTRAINT transformation_id_reste_fkey FOREIGN KEY (id_reste) REFERENCES matelas (id_matelas);
 ALTER TABLE transformation ADD CONSTRAINT transformation_id_bloc_fkey FOREIGN KEY (id_bloc) REFERENCES matelas (id_matelas);
 ALTER TABLE mvt_stock ADD CONSTRAINT mvt_stock_id_matelas_fkey FOREIGN KEY (id_matelas) REFERENCES matelas (id_matelas);
+ALTER TABLE mvt_stock ADD CONSTRAINT mvt_stock_id_transformation_fkey FOREIGN KEY (id_transformation) REFERENCES transformation (id_transformation);
 ALTER TABLE transformation_produit ADD CONSTRAINT transformation_produit_id_produit_fkey FOREIGN KEY (id_produit) REFERENCES matelas (id_matelas);
 ALTER TABLE transformation_produit ADD CONSTRAINT transformation_produit_id_transformation_fkey FOREIGN KEY (id_transformation) REFERENCES transformation (id_transformation);
 
