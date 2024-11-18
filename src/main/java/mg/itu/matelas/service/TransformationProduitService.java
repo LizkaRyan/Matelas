@@ -21,7 +21,7 @@ public class TransformationProduitService {
     private TransformationRepository transformationRepository;
 
     @Autowired
-    private MatelasRepository matelasRepository;
+    private MatelasService matelasService;
 
     @Transactional
     public List<TransformationProduit> save(List<TransformationProduitDTO> transformationProduitDTOs,Transformation transformation)throws Exception{
@@ -30,7 +30,7 @@ public class TransformationProduitService {
             if(transformationProduitDTO.getNombre()==0){
                 continue;
             }
-            Matelas produit=matelasRepository.findById(transformationProduitDTO.getIdProduit()).orElseThrow(()->new RuntimeException("Bloc non retrouve"));
+            Matelas produit=matelasService.findById(transformationProduitDTO.getIdProduit());
             TransformationProduit transformationProduit=new TransformationProduit();
             transformationProduit.setProduit(produit);
             transformationProduit.setNombre(transformationProduitDTO.getNombre());

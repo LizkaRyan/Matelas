@@ -26,7 +26,7 @@ public class TransformationService {
     private TransformationRepository transformationRepository;
 
     @Autowired
-    private MatelasRepository matelasRepository;
+    private MatelasService matelasService;
 
     @Autowired
     private TransformationProduitService transformationProduitService;
@@ -46,7 +46,7 @@ public class TransformationService {
     public List<SommeBenefice> predictBenefice(SommeBenefice sommeBenefice){
         List<SommeBenefice> valiny=new ArrayList<SommeBenefice>();
         List<Transformation> transformations=this.findAll();
-        List<Matelas> usuels=matelasRepository.findFormUsuel();
+        List<Matelas> usuels=matelasService.findUsuel();
         valiny.add(predictBeneficeOptimiste(sommeBenefice,transformations,usuels));
         valiny.add(predictBeneficeMinPerte(sommeBenefice,transformations,usuels));
         return valiny;
@@ -63,7 +63,7 @@ public class TransformationService {
         //valiny.setPrixRevient(sommeBenefice.getPrixRevient());
         valiny.setPrixRevient(0);
         for (int i = 0; i < transformations.size(); i++) {
-            Matelas bloc=matelasRepository.findById(transformations.get(i).getReste().getIdMatelas()).orElseThrow(()->new RuntimeException("Bloc non retrouve"));
+            Matelas bloc=matelasService.findById(transformations.get(i).getReste().getIdMatelas());
             Prediction prediction=Prediction.getMinPerte(usuels, bloc);
             valiny.setPrixVente(valiny.getPrixVente()+(prediction.getNombreCreer()*prediction.getUsuel().getPrixUnitaire()));
             valiny.setPrixRevient(valiny.getPrixRevient()+(prediction.getNombreCreer()*prediction.getUsuel().getPrixUnitaireByOrigine(bloc)));
@@ -83,7 +83,7 @@ public class TransformationService {
         valiny.setPrixRevient(0);
         //valiny.setPrixRevient(sommeBenefice.getPrixRevient());
         for (int i = 0; i < transformations.size(); i++) {
-            Matelas bloc=matelasRepository.findById(transformations.get(i).getReste().getIdMatelas()).orElseThrow(()->new RuntimeException("Bloc non retrouve"));
+            Matelas bloc=matelasService.findById(transformations.get(i).getReste().getIdMatelas());
             Prediction prediction=Prediction.getOptimiste(usuels, bloc);
             valiny.setPrixVente(valiny.getPrixVente()+(prediction.getNombreCreer()*prediction.getUsuel().getPrixUnitaire()));
             valiny.setPrixRevient(valiny.getPrixRevient()+(prediction.getNombreCreer()*prediction.getUsuel().getPrixUnitaireByOrigine(bloc)));
@@ -94,13 +94,13 @@ public class TransformationService {
 
     @Transactional
     public Transformation save(TransformationDTO transformationDTO)throws Exception{
-        Matelas bloc=matelasRepository.findById(transformationDTO.getIdBloc()).orElseThrow(()->new RuntimeException("Bloc non retrouve"));
+        Matelas bloc=matelasService.findById(transformationDTO.getIdBloc());
         bloc.setEtat(ConstanteEtat.UTILISE);
 
         // Insertion reste
         Matelas reste=new Matelas();
         reste.setReste(transformationDTO,bloc);
-        reste=matelasRepository.save(reste);
+        reste=matelasService.save(reste);
 
         // Insertion bloc
         Transformation transformation=new Transformation();
@@ -124,12 +124,12 @@ public class TransformationService {
     @Transactional
     public HashMap<String,Object> getPrediction(Long idTransformation){
         HashMap<String,Object> valiny=new HashMap<String,Object>();
-        List<Matelas> usuels=matelasRepository.findFormUsuel();
+        List<Matelas> usuels=matelasService.findUsuel();
         Transformation transformation=transformationRepository.findById(idTransformation).orElseThrow(()->new RuntimeException("Transformation non trouve"));
         if(transformation.getReste()==null){
             throw new RuntimeException("Ce transformation n'a pas eu de reste");
         }
-        Matelas bloc=matelasRepository.findById(transformation.getReste().getIdMatelas()).orElseThrow(()->new RuntimeException("Bloc non retrouve"));
+        Matelas bloc=matelasService.findById(transformation.getReste().getIdMatelas());
         valiny.put("MinPerte",Prediction.getMinPerte(usuels, bloc));
         valiny.put("Optimiste",Prediction.getOptimiste(usuels, bloc));
         valiny.put("benefice",getBenefice());
