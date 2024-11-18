@@ -28,6 +28,14 @@ CREATE TABLE machine(
                         UNIQUE(machine)
 );
 
+CREATE TABLE formule(
+                        id_formule SERIAL,
+                        quantite NUMERIC(15,2)   NOT NULL,
+                        id_matiere_premiere INTEGER NOT NULL,
+                        PRIMARY KEY(id_formule),
+                        FOREIGN KEY(id_matiere_premiere) REFERENCES matiere_premiere(id_matiere_premiere)
+);
+
 CREATE TABLE matelas(
                         id_matelas SERIAL,
                         matelas VARCHAR(50)  NOT NULL,

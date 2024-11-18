@@ -6,6 +6,16 @@ values  ('Machine 1'),
         ('Machine 2'),
         ('Machine 3');
 
+insert into matiere_premiere(matiere_premiere)
+values ('Essence'),
+       ('Papier'),
+       ('Durcisseur');
+
+insert into formule(id_matiere_premiere,quantite)
+values  (1,2),
+        (2,3),
+        (3,0.5);
+
 insert into matelas(matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas,id_origine) values
     ('Bloc 1',100,20,10, 2000000,1,1,null),
     ('Bloc 2',100,40,10, 3000000,1,1,null),

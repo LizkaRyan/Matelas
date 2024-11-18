@@ -1,12 +1,16 @@
 package mg.itu.matelas.entity;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import mg.itu.matelas.entity.fabrication.Formule;
 import mg.itu.matelas.entity.fabrication.Machine;
+import mg.itu.matelas.entity.fabrication.MvtStockMatiere;
 import mg.itu.matelas.other.ViewEntity;
 import mg.itu.matelas.utils.Utilitaire;
 
@@ -52,6 +56,13 @@ public class MvtStock {
     @JsonView({ViewEntity.Public.class})
     private double prixRevient;
 
+    @Transient
+    private double prixRevientTheorique;
+
+    public double getEcart(){
+        return prixRevient-prixRevientTheorique;
+    }
+
     public MvtStock(){
 
     }
@@ -60,6 +71,30 @@ public class MvtStock {
         this.setMatelas(bloc);
         this.setMachine(machine);
         this.setDateMvtStock(Utilitaire.generateDateRand(LocalDate.of(2022,1,1),LocalDate.of(2024,12,31)));
+    }
+
+    public void setPrixRevientTheorique(HashMap<Long,List<MvtStockMatiere>> mvtStockMatieres, List<Formule> formules){
+        for (Formule formule: formules) {
+            Long idMatiere=formule.getMatierePremiere().getIdMatierePremiere();
+            double qteVoulu=this.getMatelas().getVolume()*formule.getQuantite();
+            this.setPrixRevientTheorique(mvtStockMatieres.get(idMatiere),formule,qteVoulu);
+        }
+    }
+
+    public void setPrixRevientTheorique(List<MvtStockMatiere> mvtStockMatieres,Formule formule,double qteVoulu){
+        MvtStockMatiere mvtStockMatiere=mvtStockMatieres.get(0);
+        double quantiteMvtStockMatiere=mvtStockMatiere.getQuantite();
+        if(quantiteMvtStockMatiere>qteVoulu) {
+            mvtStockMatiere.setQuantite(quantiteMvtStockMatiere - qteVoulu);
+            double prixRevient = qteVoulu * mvtStockMatiere.getPrixUnitaire();
+            this.setPrixRevient(this.getPrixRevient() + prixRevient);
+            return;
+        }
+        double prixRevient=qteVoulu * mvtStockMatiere.getPrixUnitaire();
+        this.setPrixRevient(this.getPrixRevient()+prixRevient);
+        qteVoulu=-mvtStockMatiere.getQuantite();
+        mvtStockMatieres.remove(0);
+        this.setPrixRevientTheorique(mvtStockMatieres,formule,qteVoulu);
     }
 
     public void setMatelas(Matelas bloc){
