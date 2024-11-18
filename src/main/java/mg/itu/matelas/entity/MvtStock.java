@@ -4,17 +4,11 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import mg.itu.matelas.entity.fabrication.Machine;
 import mg.itu.matelas.other.ViewEntity;
+import mg.itu.matelas.utils.Utilitaire;
 
 @Entity
 @Data
@@ -26,7 +20,7 @@ public class MvtStock {
     @JsonView({ViewEntity.Public.class})
     private Long idMvtStock;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="id_matelas")
     @JsonView({ViewEntity.Full.class})
     private Matelas matelas;
@@ -35,6 +29,11 @@ public class MvtStock {
     @JoinColumn(name="id_transformation")
     @JsonView({ViewEntity.Full.class})
     private Transformation transformation;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_machine")
+    @JsonView({ViewEntity.Full.class})
+    private Machine machine;
 
     @JsonView({ViewEntity.Public.class})
     private int entree;
@@ -55,6 +54,17 @@ public class MvtStock {
 
     public MvtStock(){
 
+    }
+
+    public MvtStock(Matelas bloc,Machine machine){
+        this.setMatelas(bloc);
+        this.setMachine(machine);
+        this.setDateMvtStock(Utilitaire.generateDateRand(LocalDate.of(2022,1,1),LocalDate.of(2024,12,31)));
+    }
+
+    public void setMatelas(Matelas bloc){
+        this.matelas=bloc;
+        this.setPrixRevient(bloc.getPrixUnitaire());
     }
 
     public MvtStock(TransformationProduit produit,Matelas bloc){

@@ -5,6 +5,29 @@ CREATE TABLE type_matelas(
                              UNIQUE(type_matelas)
 );
 
+CREATE TABLE matiere_premiere(
+                                 id_matiere_premiere SERIAL,
+                                 matiere_premiere VARCHAR(50)  NOT NULL,
+                                 PRIMARY KEY(id_matiere_premiere)
+);
+
+CREATE TABLE mvt_stock_matiere(
+                                  id_mvt_stock_matiere SERIAL,
+                                  quantite NUMERIC(15,2)   NOT NULL,
+                                  prix_unitaire NUMERIC(15,2)  ,
+                                  date_mvt DATE NOT NULL,
+                                  id_matiere_premiere INTEGER NOT NULL,
+                                  PRIMARY KEY(id_mvt_stock_matiere),
+                                  FOREIGN KEY(id_matiere_premiere) REFERENCES matiere_premiere(id_matiere_premiere)
+);
+
+CREATE TABLE machine(
+                        id_machine SERIAL,
+                        machine VARCHAR(50)  NOT NULL,
+                        PRIMARY KEY(id_machine),
+                        UNIQUE(machine)
+);
+
 CREATE TABLE matelas(
                         id_matelas SERIAL,
                         matelas VARCHAR(50)  NOT NULL,
@@ -40,9 +63,11 @@ CREATE TABLE mvt_stock(
                           prix_unitaire NUMERIC(12,2)  ,
                           date_mvt_stock DATE,
                           prix_revient NUMERIC(12,2)  ,
+                          id_machine INTEGER,
                           id_transformation INTEGER,
                           id_matelas INTEGER NOT NULL,
                           PRIMARY KEY(id_mvt_stock),
+                          FOREIGN KEY(id_machine) REFERENCES machine(id_machine),
                           FOREIGN KEY(id_transformation) REFERENCES transformation(id_transformation),
                           FOREIGN KEY(id_matelas) REFERENCES matelas(id_matelas)
 );
