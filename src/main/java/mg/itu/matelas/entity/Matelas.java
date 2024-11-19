@@ -14,7 +14,7 @@ import lombok.Data;
 import mg.itu.matelas.dto.Metrage;
 import mg.itu.matelas.dto.TransformationDTO;
 import mg.itu.matelas.other.ConstanteEtat;
-import mg.itu.matelas.other.ViewEntity;
+import mg.itu.matelas.other.POV;
 import mg.itu.matelas.utils.Utilitaire;
 
 import java.math.BigDecimal;
@@ -26,10 +26,10 @@ public class Matelas {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id_matelas")
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private Long idMatelas;
 
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     String matelas;
 
     @ManyToOne(fetch=FetchType.LAZY)
@@ -44,18 +44,18 @@ public class Matelas {
     @JoinColumn(name="id_ancestor")
     private Matelas ancestor;
 
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private float longueur;
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private float largeur;
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private float epaisseur;
 
     @Column(name="prix_unitaire")
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private float prixUnitaire;
 
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private int etat=ConstanteEtat.NON_UTILISE;
 
     public Matelas(){
@@ -81,12 +81,12 @@ public class Matelas {
         this.setEpaisseur(Utilitaire.generateNumberRand(min,max));
     }
 
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     public float getVolume(){
         return longueur*largeur*epaisseur;
     }
 
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     public double getRapportVolume(){
         double valeur=this.prixUnitaire/this.getVolume();
         System.out.println("Division :"+this.prixUnitaire+"/"+this.getVolume()+" = "+valeur);
