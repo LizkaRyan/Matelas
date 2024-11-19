@@ -32,20 +32,26 @@ public class MvtStockService {
         return mvtStockRepository.save(mvtStock);
     }
 
+    public void flush(){
+        mvtStockRepository.flush();
+    }
+
     @Transactional
     public List<MvtStock> findMvtBloc(){
         return mvtStockRepository.findMvtBloc();
     }
 
     @Transactional
-    public void createData(){
+    public MvtStock createData(){
         List<Machine> machines=machineService.findAll();
+        MvtStock mvtStock=null;
         for (int i = 0; i < 10; i++) {
             Matelas matelas=new Matelas(1000000,10);
             matelas.setMatelas("Matelas "+(i+1));
-            MvtStock mvtStock=new MvtStock(matelas,machines.get(i%machines.size()));
-            this.save(mvtStock);
+            mvtStock=new MvtStock(matelas,machines.get(i%machines.size()));
+            mvtStock=this.save(mvtStock);
         }
+        return mvtStock;
     }
 
     @Transactional

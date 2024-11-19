@@ -12,7 +12,7 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.Data;
 import mg.itu.matelas.entity.id.IdTransformationProduit;
-import mg.itu.matelas.other.ViewEntity;
+import mg.itu.matelas.other.POV;
 
 @Entity
 @Data
@@ -23,7 +23,7 @@ public class TransformationProduit {
 
     @MapsId("idProduit")
     @ManyToOne(fetch=FetchType.LAZY)
-    @JsonView({ViewEntity.Full.class})
+    @JsonView({POV.Full.class})
     @JoinColumn(name="id_produit",insertable=false,updatable=false)
     private Matelas produit;
 
@@ -33,14 +33,14 @@ public class TransformationProduit {
     private Transformation transformation;
 
     @Column(name="prix_unitaire")
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private double prixUnitaire;
 
     @Column(name="prix_revient")
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private double prixRevient;
 
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private int nombre;
 
     public void setMatelas(Matelas matelas){

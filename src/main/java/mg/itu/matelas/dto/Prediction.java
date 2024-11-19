@@ -10,19 +10,19 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import lombok.Data;
 import mg.itu.matelas.entity.Matelas;
-import mg.itu.matelas.other.ViewEntity;
+import mg.itu.matelas.other.POV;
 
 @Data
 public class Prediction implements Serializable{
-    @JsonView(ViewEntity.Public.class)
+    @JsonView(POV.Public.class)
     private Matelas bloc;
-    @JsonView(ViewEntity.Public.class)
+    @JsonView(POV.Public.class)
     private Matelas usuel;
-    @JsonView(ViewEntity.Public.class)
+    @JsonView(POV.Public.class)
     private int nombreCreer;
-    @JsonView(ViewEntity.Public.class)
+    @JsonView(POV.Public.class)
     private double volumeRestant;
-    @JsonView(ViewEntity.Public.class)
+    @JsonView(POV.Public.class)
     private double prixRapportVolume;
 
     protected void setNombreCreer(){

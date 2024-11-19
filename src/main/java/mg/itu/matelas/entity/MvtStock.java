@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import lombok.Data;
 import mg.itu.matelas.entity.fabrication.Machine;
-import mg.itu.matelas.other.ViewEntity;
+import mg.itu.matelas.other.POV;
 import mg.itu.matelas.utils.Utilitaire;
 
 @Entity
@@ -17,39 +17,39 @@ public class MvtStock {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id_mvt_stock")
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private Long idMvtStock;
 
     @ManyToOne(fetch=FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name="id_matelas")
-    @JsonView({ViewEntity.Full.class})
+    @JsonView({POV.Full.class})
     private Matelas matelas;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_transformation")
-    @JsonView({ViewEntity.Full.class})
+    @JsonView({POV.Full.class})
     private Transformation transformation;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_machine")
-    @JsonView({ViewEntity.Full.class})
+    @JsonView({POV.Full.class})
     private Machine machine;
 
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private int entree;
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private int sortie;
 
     @Column(name = "date_mvt_stock")
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private LocalDate dateMvtStock;
     
     @Column(name="prix_unitaire")
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private double prixUnitaire;
 
     @Column(name="prix_revient")
-    @JsonView({ViewEntity.Public.class})
+    @JsonView({POV.Public.class})
     private double prixRevient;
 
     public MvtStock(){
@@ -60,6 +60,7 @@ public class MvtStock {
         this.setMatelas(bloc);
         this.setMachine(machine);
         this.setDateMvtStock(Utilitaire.generateDateRand(LocalDate.of(2022,1,1),LocalDate.of(2024,12,31)));
+        this.setEntree(1);
     }
 
     public void setMatelas(Matelas bloc){
