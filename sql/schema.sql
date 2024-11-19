@@ -71,6 +71,7 @@ CREATE TABLE mvt_stock(
                           prix_unitaire NUMERIC(12,2)  ,
                           date_mvt_stock DATE,
                           prix_revient NUMERIC(12,2)  ,
+                          ecart NUMERIC(15,2)  ,
                           id_machine INTEGER,
                           id_transformation INTEGER,
                           id_matelas INTEGER NOT NULL,

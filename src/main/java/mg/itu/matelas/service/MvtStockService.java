@@ -49,9 +49,15 @@ public class MvtStockService {
     @Transactional
     public MvtStock createData(){
         List<Machine> machines=machineService.findAll();
+        List<Matelas> matelasList=Matelas.init();
         MvtStock mvtStock=null;
-        for (int i = 0; i < 10; i++) {
-            Matelas matelas=new Matelas(1000000,10);
+        for (int i = 0; i < matelasList.size(); i++) {
+            matelasList.get(i).setMatelas("Matelas "+(i+1));
+            mvtStock=new MvtStock(matelasList.get(i),machines.get(i%machines.size()));
+            mvtStock=this.save(mvtStock);
+        }
+        for (int i = 0; i < 10-matelasList.size(); i++) {
+            Matelas matelas=new Matelas(Matelas.getMoyennePRU(matelasList),10);
             matelas.setMatelas("Matelas "+(i+1));
             mvtStock=new MvtStock(matelas,machines.get(i%machines.size()));
             mvtStock=this.save(mvtStock);
@@ -60,12 +66,12 @@ public class MvtStockService {
     }
 
     @Transactional
-    public List<MvtStock> findMvtStockWithPrixRevientTheorique(List<Formule> formules){
+    public void updateMvtStockWithPrixRevientTheorique(List<Formule> formules){
         List<MvtStock> mvtStocks=this.findMvtBloc();
         for (MvtStock mvtStock:mvtStocks) {
             mvtStock.setPrixRevientTheorique(mvtStockMatiereService.findMvtStockMatiereGroupByMatiere(),formules);
+            this.save(mvtStock);
         }
-        return mvtStocks;
     }
 
     @Transactional

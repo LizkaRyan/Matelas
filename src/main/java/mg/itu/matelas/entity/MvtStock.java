@@ -56,13 +56,18 @@ public class MvtStock {
     @JsonView({POV.Public.class})
     private double prixRevient;
 
+    private double ecart;
+
     @Transient
     private double prixRevientTheorique;
 
-    public double getEcart(){
-        return prixRevient-prixRevientTheorique;
+    protected void setEcart(double ecart){
+        this.ecart=ecart;
     }
 
+    private void setPrixRevientTheorique(double prix){
+        this.prixRevientTheorique=prix;
+    }
     public MvtStock(){
 
     }
@@ -74,25 +79,30 @@ public class MvtStock {
         this.setEntree(1);
     }
 
-    public void setPrixRevientTheorique(HashMap<Long,List<MvtStockMatiere>> mvtStockMatieres, List<Formule> formules){
+    public void setPrixRevientTheorique(HashMap<Long,List<MvtStockMatiere>> mvtStockMatieres, List<Formule> formules)throws RuntimeException{
         for (Formule formule: formules) {
             Long idMatiere=formule.getMatierePremiere().getIdMatierePremiere();
+            double volume=this.getMatelas().getVolume();
             double qteVoulu=this.getMatelas().getVolume()*formule.getQuantite();
             this.setPrixRevientTheorique(mvtStockMatieres.get(idMatiere),formule,qteVoulu);
+            this.setEcart((this.getPrixRevient()/volume)-(this.getPrixRevientTheorique()/volume));
         }
     }
 
-    public void setPrixRevientTheorique(List<MvtStockMatiere> mvtStockMatieres,Formule formule,double qteVoulu){
+    public void setPrixRevientTheorique(List<MvtStockMatiere> mvtStockMatieres,Formule formule,double qteVoulu)throws RuntimeException{
+        if(mvtStockMatieres.size()==0){
+            throw new RuntimeException("Il n'y a plus assez de "+formule.getMatierePremiere().getMatierePremiere());
+        }
         MvtStockMatiere mvtStockMatiere=mvtStockMatieres.get(0);
         double quantiteMvtStockMatiere=mvtStockMatiere.getQuantite();
         if(quantiteMvtStockMatiere>qteVoulu) {
             mvtStockMatiere.setQuantite(quantiteMvtStockMatiere - qteVoulu);
             double prixRevient = qteVoulu * mvtStockMatiere.getPrixUnitaire();
-            this.setPrixRevient(this.getPrixRevient() + prixRevient);
+            this.setPrixRevientTheorique(this.getPrixRevientTheorique() + prixRevient);
             return;
         }
         double prixRevient=qteVoulu * mvtStockMatiere.getPrixUnitaire();
-        this.setPrixRevient(this.getPrixRevient()+prixRevient);
+        this.setPrixRevientTheorique(this.getPrixRevientTheorique()+prixRevient);
         qteVoulu=-mvtStockMatiere.getQuantite();
         mvtStockMatieres.remove(0);
         this.setPrixRevientTheorique(mvtStockMatieres,formule,qteVoulu);

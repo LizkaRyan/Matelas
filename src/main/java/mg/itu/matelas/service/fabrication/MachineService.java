@@ -17,4 +17,9 @@ public class MachineService {
     public List<Machine> findAll(){
         return machineRepo.findAll();
     }
+
+    @Transactional
+    public List<Machine> findAllWithEcart(){
+        return machineRepo.findMachineWithEcart();
+    }
 }
