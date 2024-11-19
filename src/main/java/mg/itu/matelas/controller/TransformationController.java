@@ -1,14 +1,11 @@
 package mg.itu.matelas.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import mg.itu.matelas.dto.BeneficeDTO;
 import mg.itu.matelas.dto.Prediction;
 import mg.itu.matelas.dto.SommeBenefice;
 import mg.itu.matelas.entity.Transformation;
-import mg.itu.matelas.other.ViewEntity;
 import mg.itu.matelas.service.TransformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -2,15 +2,15 @@ package mg.itu.matelas.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import mg.itu.matelas.other.ViewEntity;
+import mg.itu.matelas.other.POV;
 
 public interface BeneficeDTO {
-    @JsonView(ViewEntity.Full.class)
+    @JsonView(POV.Full.class)
     double getPrixRevient();
-    @JsonView(ViewEntity.Full.class)
+    @JsonView(POV.Full.class)
     double getPrixVente();
-    @JsonView(ViewEntity.Full.class)
+    @JsonView(POV.Full.class)
     double getBeneficeTheorique();
-    @JsonView(ViewEntity.Full.class)
+    @JsonView(POV.Full.class)
     String getRemarque();
 }

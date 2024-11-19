@@ -5,6 +5,8 @@ import java.util.List;
 
 import mg.itu.matelas.dto.EtatStock;
 import mg.itu.matelas.entity.Matelas;
+import mg.itu.matelas.entity.fabrication.Machine;
+import mg.itu.matelas.service.fabrication.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +18,40 @@ import mg.itu.matelas.repository.MvtStockRepository;
 
 @Service
 public class MvtStockService {
-    @Autowired
-    private MvtStockRepository mvtStockRepository;
+    private final MvtStockRepository mvtStockRepository;
 
+    private final MachineService machineService;
+
+    public MvtStockService(MachineService machineService, MvtStockRepository mvtStockRepository) {
+        this.machineService = machineService;
+        this.mvtStockRepository = mvtStockRepository;
+    }
+
+    @Transactional
     public MvtStock save(MvtStock mvtStock){
         return mvtStockRepository.save(mvtStock);
+    }
+
+    public void flush(){
+        mvtStockRepository.flush();
+    }
+
+    @Transactional
+    public List<MvtStock> findMvtBloc(){
+        return mvtStockRepository.findMvtBloc();
+    }
+
+    @Transactional
+    public MvtStock createData(){
+        List<Machine> machines=machineService.findAll();
+        MvtStock mvtStock=null;
+        for (int i = 0; i < 10; i++) {
+            Matelas matelas=new Matelas(1000000,10);
+            matelas.setMatelas("Matelas "+(i+1));
+            mvtStock=new MvtStock(matelas,machines.get(i%machines.size()));
+            mvtStock=this.save(mvtStock);
+        }
+        return mvtStock;
     }
 
     @Transactional
@@ -38,8 +69,10 @@ public class MvtStockService {
         return mvtStocks;
     }
 
+    @Transactional
     public List<MvtStock> findAll(){
         return mvtStockRepository.findAll();
     }
+    @Transactional
     public List<EtatStock> findEtatStock(){return mvtStockRepository.findEtatStock();}
 }

@@ -1,6 +1,10 @@
 insert into type_matelas(type_matelas) values('Bloc');
 insert into type_matelas(type_matelas) values('Usuel');
-insert into type_matelas(type_matelas) values('Reste');
+
+insert into machine(machine)
+values  ('Machine 1'),
+        ('Machine 2'),
+        ('Machine 3');
 
 insert into matelas(matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas,id_origine) values
     ('Bloc 1',100,20,10, 2000000,1,1,null),

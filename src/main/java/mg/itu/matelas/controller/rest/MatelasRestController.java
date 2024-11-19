@@ -1,8 +1,9 @@
 package mg.itu.matelas.controller.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import mg.itu.matelas.other.ViewEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import mg.itu.matelas.entity.MvtStock;
+import mg.itu.matelas.other.POV;
+import mg.itu.matelas.service.MvtStockService;
 import org.springframework.web.bind.annotation.*;
 
 import mg.itu.matelas.entity.Matelas;
@@ -14,12 +15,24 @@ import java.util.List;
 @RequestMapping("/matelas/rest")
 public class MatelasRestController {
 
-    @Autowired
-    MatelasService matelasService;
+    final MatelasService matelasService;
+
+    private final MvtStockService mvtStockService;
+
+    public MatelasRestController(MatelasService matelasService, MvtStockService mvtStockService) {
+        this.matelasService = matelasService;
+        this.mvtStockService = mvtStockService;
+    }
 
     @GetMapping("/usuel")
-    @JsonView(ViewEntity.Public.class)
+    @JsonView(POV.Public.class)
     public List<Matelas> getUsuels(){
         return matelasService.findUsuel();
+    }
+
+    @GetMapping("/create_rand")
+    @JsonView(POV.Public.class)
+    public MvtStock createRand(){
+        return mvtStockService.createData();
     }
 }
