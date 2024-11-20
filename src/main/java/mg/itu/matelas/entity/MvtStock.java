@@ -1,7 +1,7 @@
 package mg.itu.matelas.entity;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -79,12 +79,13 @@ public class MvtStock {
         this.setEntree(1);
     }
 
-    public void setPrixRevientTheorique(HashMap<Long,List<MvtStockMatiere>> mvtStockMatieres, List<Formule> formules)throws RuntimeException{
+    public void setPrixRevientTheorique(Hashtable<Long, List<MvtStockMatiere>> mvtStockMatieres, List<Formule> formules)throws RuntimeException{
         for (Formule formule: formules) {
             Long idMatiere=formule.getMatierePremiere().getIdMatierePremiere();
             double volume=this.getMatelas().getVolume();
             double qteVoulu=this.getMatelas().getVolume()*formule.getQuantite();
-            this.setPrixRevientTheorique(mvtStockMatieres.get(idMatiere),formule,qteVoulu);
+            List<MvtStockMatiere> listMvtStockMatiere=mvtStockMatieres.get(idMatiere);
+            this.setPrixRevientTheorique(listMvtStockMatiere,formule,qteVoulu);
             this.setEcart((this.getPrixRevient()/volume)-(this.getPrixRevientTheorique()/volume));
         }
     }
@@ -101,9 +102,9 @@ public class MvtStock {
             this.setPrixRevientTheorique(this.getPrixRevientTheorique() + prixRevient);
             return;
         }
-        double prixRevient=qteVoulu * mvtStockMatiere.getPrixUnitaire();
+        double prixRevient=quantiteMvtStockMatiere * mvtStockMatiere.getPrixUnitaire();
         this.setPrixRevientTheorique(this.getPrixRevientTheorique()+prixRevient);
-        qteVoulu=-mvtStockMatiere.getQuantite();
+        qteVoulu-=quantiteMvtStockMatiere;
         mvtStockMatieres.remove(0);
         this.setPrixRevientTheorique(mvtStockMatieres,formule,qteVoulu);
     }

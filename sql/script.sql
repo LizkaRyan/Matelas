@@ -10,3 +10,5 @@ with vente as (select sum(tp.nombre*tp.prix_unitaire) as prix_vente,m.prix_unita
                from transformation_produit as tp
                         natural join transformation as t join matelas as m on m.id_matelas=t.id_reste group by t.id_bloc,m.prix_unitaire,t.remarque)
 select sum(prix_vente) as prix_vente,remarque,m.prix_unitaire-pv.prix_unitaire as prix_revient,sum(prix_vente)-(m.prix_unitaire-pv.prix_unitaire) as benefice_theorique from vente as pv join matelas as m on m.id_matelas=pv.id_bloc group by id_matelas,m.prix_unitaire,remarque,pv.prix_unitaire;
+
+\COPY matelas(matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas) FROM 'C:\Users\ryrab\Desktop\Ryan\Etudes\S5\ArchitectureLogiciel\Matelas\matelas\Matelas\sql\data.csv' WITH (FORMAT CSV,DELIMITER ';',HEADER);

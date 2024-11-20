@@ -27,14 +27,29 @@ public class MvtStockMatiere {
     private MatierePremiere matierePremiere;
 
     @Transient
-    private double quantiteClone;
+    private Double quantiteClone;
 
-    public void setQuantiteClone(double quantite){
+    public void setQuantiteClone(Double quantite){
         this.quantiteClone=quantite;
     }
 
-    public void setQuantite(double quantite){
+    public void setQuantite(Double quantite){
         this.quantite=quantite;
         this.setQuantiteClone(quantite);
+    }
+
+    public MvtStockMatiere(){}
+
+    public MvtStockMatiere(
+            Long idMvtStockMatiere,
+            double quantite,
+            double prixUnitaire,
+            LocalDate dateMvt,
+            MatierePremiere matierePremiere){
+        this.setIdMvtStockMatiere(idMvtStockMatiere);
+        this.setQuantite(quantite);
+        this.setDateMvt(dateMvt);
+        this.setMatierePremiere(matierePremiere);
+        this.setPrixUnitaire(prixUnitaire);
     }
 }

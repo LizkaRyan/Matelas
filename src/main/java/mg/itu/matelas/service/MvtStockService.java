@@ -1,12 +1,14 @@
 package mg.itu.matelas.service;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import mg.itu.matelas.dto.EtatStock;
 import mg.itu.matelas.entity.Matelas;
 import mg.itu.matelas.entity.fabrication.Formule;
 import mg.itu.matelas.entity.fabrication.Machine;
+import mg.itu.matelas.entity.fabrication.MvtStockMatiere;
 import mg.itu.matelas.service.fabrication.MachineService;
 import mg.itu.matelas.service.fabrication.MvtStockMatiereService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +70,9 @@ public class MvtStockService {
     @Transactional
     public void updateMvtStockWithPrixRevientTheorique(List<Formule> formules){
         List<MvtStock> mvtStocks=this.findMvtBloc();
+        Hashtable<Long,List<MvtStockMatiere>> listMvtStockMatiere=mvtStockMatiereService.findMvtStockMatiereGroupByMatiere();
         for (MvtStock mvtStock:mvtStocks) {
-            mvtStock.setPrixRevientTheorique(mvtStockMatiereService.findMvtStockMatiereGroupByMatiere(),formules);
+            mvtStock.setPrixRevientTheorique(listMvtStockMatiere,formules);
             this.save(mvtStock);
         }
     }
