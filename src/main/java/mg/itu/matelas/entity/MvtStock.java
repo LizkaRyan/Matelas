@@ -94,9 +94,9 @@ public class MvtStock {
             throw new RuntimeException("Il n'y a plus assez de "+formule.getMatierePremiere().getMatierePremiere());
         }
         MvtStockMatiere mvtStockMatiere=mvtStockMatieres.get(0);
-        double quantiteMvtStockMatiere=mvtStockMatiere.getQuantite();
+        double quantiteMvtStockMatiere=mvtStockMatiere.getQuantiteClone();
         if(quantiteMvtStockMatiere>qteVoulu) {
-            mvtStockMatiere.setQuantite(quantiteMvtStockMatiere - qteVoulu);
+            mvtStockMatiere.setQuantiteClone(quantiteMvtStockMatiere - qteVoulu);
             double prixRevient = qteVoulu * mvtStockMatiere.getPrixUnitaire();
             this.setPrixRevientTheorique(this.getPrixRevientTheorique() + prixRevient);
             return;
