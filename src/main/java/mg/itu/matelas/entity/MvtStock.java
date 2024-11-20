@@ -1,12 +1,16 @@
 package mg.itu.matelas.entity;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import mg.itu.matelas.entity.fabrication.Formule;
 import mg.itu.matelas.entity.fabrication.Machine;
+import mg.itu.matelas.entity.fabrication.MvtStockMatiere;
 import mg.itu.matelas.other.POV;
 import mg.itu.matelas.utils.Utilitaire;
 
@@ -52,6 +56,18 @@ public class MvtStock {
     @JsonView({POV.Public.class})
     private double prixRevient;
 
+    private double ecart;
+
+    @Transient
+    private double prixRevientTheorique;
+
+    protected void setEcart(double ecart){
+        this.ecart=ecart;
+    }
+
+    private void setPrixRevientTheorique(double prix){
+        this.prixRevientTheorique=prix;
+    }
     public MvtStock(){
 
     }
@@ -61,6 +77,35 @@ public class MvtStock {
         this.setMachine(machine);
         this.setDateMvtStock(Utilitaire.generateDateRand(LocalDate.of(2022,1,1),LocalDate.of(2024,12,31)));
         this.setEntree(1);
+    }
+
+    public void setPrixRevientTheorique(HashMap<Long,List<MvtStockMatiere>> mvtStockMatieres, List<Formule> formules)throws RuntimeException{
+        for (Formule formule: formules) {
+            Long idMatiere=formule.getMatierePremiere().getIdMatierePremiere();
+            double volume=this.getMatelas().getVolume();
+            double qteVoulu=this.getMatelas().getVolume()*formule.getQuantite();
+            this.setPrixRevientTheorique(mvtStockMatieres.get(idMatiere),formule,qteVoulu);
+            this.setEcart((this.getPrixRevient()/volume)-(this.getPrixRevientTheorique()/volume));
+        }
+    }
+
+    public void setPrixRevientTheorique(List<MvtStockMatiere> mvtStockMatieres,Formule formule,double qteVoulu)throws RuntimeException{
+        if(mvtStockMatieres.size()==0){
+            throw new RuntimeException("Il n'y a plus assez de "+formule.getMatierePremiere().getMatierePremiere());
+        }
+        MvtStockMatiere mvtStockMatiere=mvtStockMatieres.get(0);
+        double quantiteMvtStockMatiere=mvtStockMatiere.getQuantiteClone();
+        if(quantiteMvtStockMatiere>qteVoulu) {
+            mvtStockMatiere.setQuantiteClone(quantiteMvtStockMatiere - qteVoulu);
+            double prixRevient = qteVoulu * mvtStockMatiere.getPrixUnitaire();
+            this.setPrixRevientTheorique(this.getPrixRevientTheorique() + prixRevient);
+            return;
+        }
+        double prixRevient=qteVoulu * mvtStockMatiere.getPrixUnitaire();
+        this.setPrixRevientTheorique(this.getPrixRevientTheorique()+prixRevient);
+        qteVoulu=-mvtStockMatiere.getQuantite();
+        mvtStockMatieres.remove(0);
+        this.setPrixRevientTheorique(mvtStockMatieres,formule,qteVoulu);
     }
 
     public void setMatelas(Matelas bloc){

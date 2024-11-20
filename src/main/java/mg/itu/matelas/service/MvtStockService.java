@@ -5,8 +5,10 @@ import java.util.List;
 
 import mg.itu.matelas.dto.EtatStock;
 import mg.itu.matelas.entity.Matelas;
+import mg.itu.matelas.entity.fabrication.Formule;
 import mg.itu.matelas.entity.fabrication.Machine;
 import mg.itu.matelas.service.fabrication.MachineService;
+import mg.itu.matelas.service.fabrication.MvtStockMatiereService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +24,12 @@ public class MvtStockService {
 
     private final MachineService machineService;
 
-    public MvtStockService(MachineService machineService, MvtStockRepository mvtStockRepository) {
+    private final MvtStockMatiereService mvtStockMatiereService;
+
+    public MvtStockService(MachineService machineService, MvtStockRepository mvtStockRepository, MvtStockMatiereService mvtStockMatiereService) {
         this.machineService = machineService;
         this.mvtStockRepository = mvtStockRepository;
+        this.mvtStockMatiereService = mvtStockMatiereService;
     }
 
     @Transactional
@@ -44,14 +49,29 @@ public class MvtStockService {
     @Transactional
     public MvtStock createData(){
         List<Machine> machines=machineService.findAll();
+        List<Matelas> matelasList=Matelas.init();
         MvtStock mvtStock=null;
-        for (int i = 0; i < 10; i++) {
-            Matelas matelas=new Matelas(1000000,10);
+        for (int i = 0; i < matelasList.size(); i++) {
+            matelasList.get(i).setMatelas("Matelas "+(i+1));
+            mvtStock=new MvtStock(matelasList.get(i),machines.get(i%machines.size()));
+            mvtStock=this.save(mvtStock);
+        }
+        for (int i = 0; i < 10-matelasList.size(); i++) {
+            Matelas matelas=new Matelas(Matelas.getMoyennePRU(matelasList),10);
             matelas.setMatelas("Matelas "+(i+1));
             mvtStock=new MvtStock(matelas,machines.get(i%machines.size()));
             mvtStock=this.save(mvtStock);
         }
         return mvtStock;
+    }
+
+    @Transactional
+    public void updateMvtStockWithPrixRevientTheorique(List<Formule> formules){
+        List<MvtStock> mvtStocks=this.findMvtBloc();
+        for (MvtStock mvtStock:mvtStocks) {
+            mvtStock.setPrixRevientTheorique(mvtStockMatiereService.findMvtStockMatiereGroupByMatiere(),formules);
+            this.save(mvtStock);
+        }
     }
 
     @Transactional
