@@ -25,4 +25,16 @@ public class MvtStockMatiere {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_matiere_premiere")
     private MatierePremiere matierePremiere;
+
+    @Transient
+    private double quantiteClone;
+
+    public void setQuantiteClone(double quantite){
+        this.quantiteClone=quantite;
+    }
+
+    public void setQuantite(double quantite){
+        this.quantite=quantite;
+        this.setQuantiteClone(quantite);
+    }
 }

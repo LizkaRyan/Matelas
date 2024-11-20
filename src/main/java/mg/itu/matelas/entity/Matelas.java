@@ -19,6 +19,8 @@ import mg.itu.matelas.utils.Utilitaire;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -53,7 +55,7 @@ public class Matelas {
 
     @Column(name="prix_unitaire")
     @JsonView({POV.Public.class})
-    private float prixUnitaire;
+    private double prixUnitaire;
 
     @JsonView({POV.Public.class})
     private int etat=ConstanteEtat.NON_UTILISE;
@@ -61,11 +63,11 @@ public class Matelas {
     public Matelas(){
 
     }
-    public Matelas(float prixRevientGlobal,float pourcentage){
+    public Matelas(double prixRevientGlobal,float pourcentage){
         this.setLongueur(Utilitaire.generateNumberRand(5,7));
         this.setLargeur(Utilitaire.generateNumberRand(20,25));
         this.setEpaisseur(Utilitaire.generateNumberRand(10,15));
-        float prixRevient=prixRevientGlobal*Utilitaire.generateNumberRand(-pourcentage,pourcentage)/100f;
+        double prixRevient=prixRevientGlobal*Utilitaire.generateNumberRand(-pourcentage,pourcentage)/100f;
         this.setPrixUnitaire(prixRevientGlobal+prixRevient);
         this.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
     }
@@ -94,7 +96,7 @@ public class Matelas {
         return bd.doubleValue();
     }
 
-    public float getPrixUnitaireByOrigine(Matelas origine){
+    public double getPrixUnitaireByOrigine(Matelas origine){
         return this.getVolume()*origine.getPrixUnitaire()/origine.getVolume();
     }
 
@@ -117,7 +119,7 @@ public class Matelas {
         this.epaisseur=epaisseur;
     }
 
-    public void setPrixUnitaire(float prixUnitaire)throws RuntimeException{
+    public void setPrixUnitaire(double prixUnitaire)throws RuntimeException{
         if(prixUnitaire<=0){
             throw new RuntimeException("Prix unitaire negaitif ou nulle ne peut pas etre accepte");
         }
@@ -150,5 +152,32 @@ public class Matelas {
         this.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
         this.setPrixUnitaire(this.getPrixUnitaireByOrigine(origine));
         this.setEtat(ConstanteEtat.NON_UTILISE);
+    }
+
+    public static List<Matelas> init(){
+        List<Matelas> matelas=new ArrayList<Matelas>();
+        Matelas matela=new Matelas();
+        matela.setLongueur(3);
+        matela.setLargeur(23.21f);
+        matela.setEpaisseur(13.12f);
+        matela.setPrixUnitaire(1000000);
+        matela.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
+        matelas.add(matela);
+        matela=new Matelas();
+        matela.setLongueur(2.18f);
+        matela.setLargeur(24.44f);
+        matela.setEpaisseur(12.99f);
+        matela.setPrixUnitaire(2500000);
+        matela.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
+        matelas.add(matela);
+        return matelas;
+    }
+
+    public static double getMoyennePRU(List<Matelas> matelas){
+        double answer=0;
+        for (Matelas matela:matelas) {
+            answer+=matela.getPrixUnitaire();
+        }
+        return answer/matelas.size();
     }
 }
