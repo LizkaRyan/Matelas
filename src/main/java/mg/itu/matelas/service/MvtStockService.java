@@ -58,8 +58,9 @@ public class MvtStockService {
             mvtStock=new MvtStock(matelasList.get(i),machines.get(i%machines.size()));
             mvtStock=this.save(mvtStock);
         }
-        for (int i = 0; i < 10-matelasList.size(); i++) {
-            Matelas matelas=new Matelas(Matelas.getMoyennePRU(matelasList),10);
+        double moyenne=Matelas.getMoyennePRU(matelasList);
+        for (int i = 0; i < 5-matelasList.size(); i++) {
+            Matelas matelas=new Matelas(moyenne,10);
             matelas.setMatelas("Matelas "+(i+1));
             mvtStock=new MvtStock(matelas,machines.get(i%machines.size()));
             mvtStock=this.save(mvtStock);

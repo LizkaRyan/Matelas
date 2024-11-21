@@ -95,6 +95,9 @@ public class MvtStock {
             throw new RuntimeException("Il n'y a plus assez de "+formule.getMatierePremiere().getMatierePremiere());
         }
         MvtStockMatiere mvtStockMatiere=mvtStockMatieres.get(0);
+        if(mvtStockMatiere.getDateMvt().isAfter(this.getDateMvtStock())){
+            throw new RuntimeException("La date de creation du bloc est:"+this.getDateMvtStock()+" alors que l'achat de matière la plus récente après est:"+mvtStockMatiere.getDateMvt());
+        }
         double quantiteMvtStockMatiere=mvtStockMatiere.getQuantiteClone();
         if(quantiteMvtStockMatiere>qteVoulu) {
             mvtStockMatiere.setQuantiteClone(quantiteMvtStockMatiere - qteVoulu);

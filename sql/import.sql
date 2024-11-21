@@ -1,16 +1,15 @@
 CREATE TEMP TABLE temp_table (
-    matelas Varchar(255),
+    id Varchar(255),
     longueur numeric(15,2),
     largeur numeric(15,2),
     epaisseur numeric(15,2),
-    prix_unitaire numeric(15,2),
-    date_mvt_stock date,
+    daty date,
     id_machine INTEGER,
     etat INTEGER default 2,
     id_type_matelas INTEGER default 1
 );
 
-\COPY temp_table(matelas,longueur,largeur,epaisseur,prix_unitaire,id_machine,date_mvt_stock) FROM 'C:\Users\ryrab\Desktop\Ryan\Etudes\S5\ArchitectureLogiciel\Matelas\matelas\Matelas\sql\data.csv' WITH (FORMAT CSV, DELIMITER ';', HEADER);
+\COPY temp_table(id,longueur,largeur,epaisseur,prix_unitaire,id_machine,date_mvt_stock) FROM 'C:\Users\ryrab\Desktop\Ryan\Etudes\S5\ArchitectureLogiciel\Matelas\matelas\Matelas\sql\data.csv' WITH (FORMAT CSV, DELIMITER ';', HEADER);
 
 INSERT INTO matelas(matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas)
  SELECT matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas FROM temp_table;
