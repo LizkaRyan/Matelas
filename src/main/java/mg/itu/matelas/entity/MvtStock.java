@@ -73,7 +73,8 @@ public class MvtStock {
     }
 
     public MvtStock(Matelas matelas,String idMachine){
-
+        this.setMachine(new Machine(Utilitaire.parseLong(idMachine),"M"+idMachine));
+        this.setMatelas(matelas);
     }
 
     public MvtStock(Matelas bloc,Machine machine){
@@ -95,12 +96,15 @@ public class MvtStock {
     }
 
     public void setPrixRevientTheorique(List<MvtStockMatiere> mvtStockMatieres,Formule formule,double qteVoulu)throws RuntimeException{
+        if(qteVoulu==0.0){
+            return;
+        }
         if(mvtStockMatieres.size()==0){
-            throw new RuntimeException("Il n'y a plus assez de "+formule.getMatierePremiere().getMatierePremiere());
+            throw new RuntimeException("Il n'y a plus assez de "+formule.getMatierePremiere().getMatierePremiere()+" qteVoulu="+qteVoulu);
         }
         MvtStockMatiere mvtStockMatiere=mvtStockMatieres.get(0);
         if(mvtStockMatiere.getDateMvt().isAfter(this.getDateMvtStock())){
-            throw new RuntimeException("La date de creation du bloc est:"+this.getDateMvtStock()+" alors que l'achat de matière la plus récente après est:"+mvtStockMatiere.getDateMvt());
+            throw new RuntimeException("La date de creation du bloc est:"+this.getDateMvtStock()+" alors que l'achat de "+formule.getMatierePremiere().getMatierePremiere()+" la plus récente après est:"+mvtStockMatiere.getDateMvt()+" qteVoulu="+qteVoulu);
         }
         double quantiteMvtStockMatiere=mvtStockMatiere.getQuantiteClone();
         if(quantiteMvtStockMatiere>qteVoulu) {

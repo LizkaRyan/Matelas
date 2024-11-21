@@ -72,21 +72,23 @@ public class MvtStockService {
         return mvtStock;
     }
 
-    @Transactional
     public void updateMvtStockWithPrixRevientTheorique(List<Formule> formules){
         List<MvtStock> mvtStocks=this.findMvtBloc();
         Hashtable<Long,List<MvtStockMatiere>> listMvtStockMatiere=mvtStockMatiereService.findMvtStockMatiereGroupByMatiere();
         for (MvtStock mvtStock:mvtStocks) {
             mvtStock.setPrixRevientTheorique(listMvtStockMatiere,formules);
-            this.save(mvtStock);
+            //this.save(mvtStock);
         }
+        updateEcart(mvtStocks);
     }
 
-    /*@Transactional
-    public String updateEcart(){
+    public void updateEcart(List<MvtStock> mvtStocks){
         String sql = "update mvt_stock set ecart=? where id_mvt_stock=?";
-
-    }*/
+        jdbcTemplate.batchUpdate(sql, mvtStocks, 1000, (ps, mvtStock) -> {
+            ps.setDouble(1, mvtStock.getEcart());
+            ps.setLong(2, mvtStock.getIdMvtStock());
+        });
+    }
 
     @Transactional
     public List<MvtStock> save(Transformation transformation){

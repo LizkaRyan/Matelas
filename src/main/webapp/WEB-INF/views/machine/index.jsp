@@ -48,7 +48,7 @@
                 <td><%= machines.get(i).getMachine() %></td>
                 <td><%= machines.get(i).getQuantite() %></td>
                 <td><%= machines.get(i).getPrixRevient() %></td>
-                <td><%= machines.get(i).getPrixRevientTheorique() %></td>
+                <td><%= machines.get(i).getPrixRevient()-machines.get(i).getEcart() %></td>
                 <td><%= machines.get(i).getEcart() %></td>
             </tr>
             <% } %>

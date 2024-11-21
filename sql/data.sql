@@ -25,16 +25,15 @@ insert into mvt_stock(entree,sortie,prix_unitaire,date_mvt_stock,id_matelas,prix
 insert into mvt_stock(entree,sortie,prix_unitaire,date_mvt_stock,id_matelas,prix_revient) values(1,0,0,NOW(),2,3000000);
 
 insert into mvt_stock_matiere(quantite,prix_unitaire,date_mvt,id_matiere_premiere)
-values  (5750,550,'2022-01-01',1),
-        (5325,625,'2022-01-03',1),
-        (6324,460,'2022-01-05',1),
-        (5235,520,'2022-01-07',1),
-        (6532,725,'2022-01-09',1),
-        (10750,300,'2022-01-01',2),
-        (12532,550,'2022-01-03',2),
-        (23546,250,'2022-01-05',2),
-        (5740,300,'2022-01-01',3),
-        (3532,250,'2022-01-03',3);
+values  (224727345,6000,'2024-01-01',1),
+        (224727345,600,'2024-01-01',2),
+        (112363672.5,550,'2024-01-01',3),
+        (225233313,5950,'2023-01-01',1),
+        (225233313,500,'2023-01-01',2),
+        (112616656.5,500,'2023-01-01',3),
+        (224974632,5900,'2022-01-01',1),
+        (224974632,400,'2022-01-01',2),
+        (112487316,450,'2022-01-01',3);
 
 -- insert into transformation(id_bloc) values(1);
 
@@ -43,5 +42,7 @@ values  (5750,550,'2022-01-01',1),
 --    (1,3,10,35000),
 --    (1,4,25,32500),
 --    (1,5,30,50);
+
+COPY (select id_matelas,prix_revient-ecart as theorique from mvt_stock) TO 'C:\Users\ryrab\Desktop\Ryan\Etudes\S5\ArchitectureLogiciel\Matelas\matelas\Matelas' DELIMITER ',' CSV HEADER;
 
 -- insert into matelas(matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas,id_origine) values('Reste B1',2,3,0.5,31250,1,1,1);

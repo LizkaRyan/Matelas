@@ -30,6 +30,11 @@ public class Machine {
     @Transient
     private double quantite;
 
+    public Machine(Long idMachine,String machine){
+        this.setIdMachine(idMachine);
+        this.setMachine(machine);
+    }
+
     public Machine(){}
 
     public Machine(Long idMachine,String machine,double ecart,double prixRevient,double prixRevientTheorique,double quantite){

@@ -18,4 +18,6 @@ INSERT INTO matelas(id_matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_
 INSERT INTO mvt_stock(entree,date_mvt_stock,prix_revient,id_machine,id_matelas)
  select 1 as entree,date_mvt_stock,matelas.prix_unitaire,id_machine,matelas.id_matelas from temp_table join matelas on temp_table.id_matelas=matelas.id_matelas;
 
+update mvt_stock set sortie=0,prix_unitaire=0,ecart=0;
+
 DROP TABLE temp_table;

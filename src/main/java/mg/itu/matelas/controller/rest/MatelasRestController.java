@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import mg.itu.matelas.entity.Matelas;
 import mg.itu.matelas.service.MatelasService;
 
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 @RestController
@@ -60,6 +62,14 @@ public class MatelasRestController {
         mvtStockService.updateMvtStockWithPrixRevientTheorique((List<Formule>)httpSession.getAttribute("formule"));
         return "Done";
     }
+
+    /*@GetMapping("/update_all")
+    @JsonView(POV.Public.class)
+    public String importCSV(){
+        List<HashMap<String,String>> temp=machineService.findTempTable();
+        machineService.saveAll(temp);
+        return "Done";
+    }*/
 
     @GetMapping("/list")
     @JsonView(POV.Public.class)

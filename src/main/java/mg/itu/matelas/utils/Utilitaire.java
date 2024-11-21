@@ -64,6 +64,10 @@ public final class Utilitaire {
         return Double.parseDouble(cleanAndFormat(value));
     }
 
+    public static Long parseLong(String value){
+        return Long.parseLong(cleanAndFormat(value));
+    }
+
     public static float parseFloat(String value){
         return Float.parseFloat(cleanAndFormat(value));
     }
@@ -73,6 +77,6 @@ public final class Utilitaire {
     }
 
     public static double correct(String value){
-
+        return Double.parseDouble(cleanAndFormat(value));
     }
 }
