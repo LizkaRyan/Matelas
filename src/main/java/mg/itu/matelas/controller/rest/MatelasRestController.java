@@ -63,13 +63,12 @@ public class MatelasRestController {
         return "Done";
     }
 
-    /*@GetMapping("/update_all")
+    @GetMapping("/import_CSV")
     @JsonView(POV.Public.class)
     public String importCSV(){
-        List<HashMap<String,String>> temp=machineService.findTempTable();
-        machineService.saveAll(temp);
+        matelasService.saveAll();
         return "Done";
-    }*/
+    }
 
     @GetMapping("/list")
     @JsonView(POV.Public.class)

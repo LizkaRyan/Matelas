@@ -72,9 +72,10 @@ public class MvtStock {
 
     }
 
-    public MvtStock(Matelas matelas,String idMachine){
+    public MvtStock(Matelas matelas,String idMachine,String date){
         this.setMachine(new Machine(Utilitaire.parseLong(idMachine),"M"+idMachine));
         this.setMatelas(matelas);
+        this.setDateMvtStock(Utilitaire.parseDate(date));
     }
 
     public MvtStock(Matelas bloc,Machine machine){

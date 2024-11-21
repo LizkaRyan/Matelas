@@ -60,6 +60,10 @@ public final class Utilitaire {
         return input.replaceAll("[^0-9.]", "");
     }
 
+    public static LocalDate parseDate(String date){
+        return LocalDate.parse(cleanAndFormat(date));
+    }
+
     public static double parseDouble(String value){
         return Double.parseDouble(cleanAndFormat(value));
     }

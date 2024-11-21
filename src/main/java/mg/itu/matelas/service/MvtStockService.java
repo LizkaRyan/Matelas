@@ -1,6 +1,8 @@
 package mg.itu.matelas.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -87,6 +89,17 @@ public class MvtStockService {
         jdbcTemplate.batchUpdate(sql, mvtStocks, 1000, (ps, mvtStock) -> {
             ps.setDouble(1, mvtStock.getEcart());
             ps.setLong(2, mvtStock.getIdMvtStock());
+        });
+    }
+
+    public void saveMvtStock(List<MvtStock> mvtStocks){
+        String sql = "insert into mvt_stock(entree,sortie,prix_unitaire,date_mvt_stock,prix_revient,ecart,id_machine,id_matelas) ";
+        sql+="values(1,0,0,?,?,0,?,?)";
+        jdbcTemplate.batchUpdate(sql, mvtStocks, 1000, (ps, mvtStock) -> {
+            ps.setDate(1, Date.valueOf(mvtStock.getDateMvtStock()));
+            ps.setDouble(2, mvtStock.getPrixRevient());
+            ps.setLong(3, mvtStock.getMachine().getIdMachine());
+            ps.setLong(4,mvtStock.getMatelas().getIdMatelas());
         });
     }
 

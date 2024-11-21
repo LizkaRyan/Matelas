@@ -72,11 +72,12 @@ public class Matelas {
         this.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
     }
 
-    public Matelas(String longueur,String largeur,String epaisseur,String prixRevient){
+    public Matelas(String idMatelas,String longueur,String largeur,String epaisseur,String prixRevient){
         this.setLongueur(Utilitaire.parseDouble(longueur));
         this.setLargeur(Utilitaire.parseDouble(largeur));
         this.setEpaisseur(Utilitaire.parseDouble(epaisseur));
         this.setPrixUnitaire(Utilitaire.parseDouble(prixRevient));
+        this.setIdMatelas(Utilitaire.parseLong(idMatelas));
     }
 
     private void setRandLongueur(float min,float max){
