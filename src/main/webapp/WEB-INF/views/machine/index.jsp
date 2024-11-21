@@ -21,6 +21,15 @@
 <body>
 <jsp:include page="../nav.jsp" />
 <div class="container">
+    <form action="/machine/filter">
+        <select name="annee">
+            <option value="0">Tous</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+        </select>
+        <button class="btn-primary">Filtrer</button>
+    </form>
     <h1>ETU002459</h1>
     <div class="row mb-3 mt-3">
         <table class="table table-striped">

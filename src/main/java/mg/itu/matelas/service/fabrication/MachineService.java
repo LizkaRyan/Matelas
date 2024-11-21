@@ -22,4 +22,9 @@ public class MachineService {
     public List<Machine> findAllWithEcart(){
         return machineRepo.findMachineWithEcart();
     }
+
+    @Transactional
+    public List<Machine> findAllWithEcartByAnnee(int annee){
+        return machineRepo.findMachineWithEcartByAnnee(annee);
+    }
 }
