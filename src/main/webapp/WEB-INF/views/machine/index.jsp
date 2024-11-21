@@ -27,13 +27,19 @@
             <tr>
                 <th>Position</th>
                 <th>Machine</th>
-                <th>ecart</th>
+                <th>Quantite</th>
+                <th>Prix de revient pratique</th>
+                <th>Prix de revient theorique</th>
+                <th>Ecart/m^3</th>
             </tr>
             <% for (int i = 0; i < machines.size(); i++) {
             %>
             <tr>
                 <td><%= (i+1) %></td>
                 <td><%= machines.get(i).getMachine() %></td>
+                <td><%= machines.get(i).getQuantite() %></td>
+                <td><%= machines.get(i).getPrixRevient() %></td>
+                <td><%= machines.get(i).getPrixRevientTheorique() %></td>
                 <td><%= machines.get(i).getEcart() %></td>
             </tr>
             <% } %>

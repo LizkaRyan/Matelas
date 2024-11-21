@@ -21,11 +21,23 @@ public class Machine {
     @JsonView({POV.Public.class})
     private double ecart;
 
+    @Transient
+    private double prixRevient;
+
+    @Transient
+    private double prixRevientTheorique;
+
+    @Transient
+    private double quantite;
+
     public Machine(){}
 
-    public Machine(Long idMachine,String machine,double ecart){
+    public Machine(Long idMachine,String machine,double ecart,double prixRevient,double prixRevientTheorique,double quantite){
         this.setIdMachine(idMachine);
         this.setMachine(machine);
         this.setEcart(ecart);
+        this.setPrixRevient(prixRevient);
+        this.setPrixRevientTheorique(prixRevientTheorique);
+        this.setQuantite(quantite);
     }
 }
