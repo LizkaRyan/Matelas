@@ -72,6 +72,10 @@ public class MvtStock {
 
     }
 
+    public MvtStock(Matelas matelas,String idMachine){
+
+    }
+
     public MvtStock(Matelas bloc,Machine machine){
         this.setMatelas(bloc);
         this.setMachine(machine);
@@ -82,11 +86,11 @@ public class MvtStock {
     public void setPrixRevientTheorique(Hashtable<Long, List<MvtStockMatiere>> mvtStockMatieres, List<Formule> formules)throws RuntimeException{
         for (Formule formule: formules) {
             Long idMatiere=formule.getMatierePremiere().getIdMatierePremiere();
-            double volume=this.getMatelas().getVolume();
+            //double volume=this.getMatelas().getVolume();
             double qteVoulu=this.getMatelas().getVolume()*formule.getQuantite();
             List<MvtStockMatiere> listMvtStockMatiere=mvtStockMatieres.get(idMatiere);
             this.setPrixRevientTheorique(listMvtStockMatiere,formule,qteVoulu);
-            this.setEcart((this.getPrixRevient()/volume)-(this.getPrixRevientTheorique()/volume));
+            this.setEcart((this.getPrixRevient())-(this.getPrixRevientTheorique()));
         }
     }
 

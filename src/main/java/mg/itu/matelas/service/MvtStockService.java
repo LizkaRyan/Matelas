@@ -12,6 +12,7 @@ import mg.itu.matelas.entity.fabrication.MvtStockMatiere;
 import mg.itu.matelas.service.fabrication.MachineService;
 import mg.itu.matelas.service.fabrication.MvtStockMatiereService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -28,10 +29,13 @@ public class MvtStockService {
 
     private final MvtStockMatiereService mvtStockMatiereService;
 
-    public MvtStockService(MachineService machineService, MvtStockRepository mvtStockRepository, MvtStockMatiereService mvtStockMatiereService) {
+    private final JdbcTemplate jdbcTemplate;
+
+    public MvtStockService(MachineService machineService, MvtStockRepository mvtStockRepository, MvtStockMatiereService mvtStockMatiereService, JdbcTemplate jdbcTemplate) {
         this.machineService = machineService;
         this.mvtStockRepository = mvtStockRepository;
         this.mvtStockMatiereService = mvtStockMatiereService;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Transactional
@@ -77,6 +81,12 @@ public class MvtStockService {
             this.save(mvtStock);
         }
     }
+
+    /*@Transactional
+    public String updateEcart(){
+        String sql = "update mvt_stock set ecart=? where id_mvt_stock=?";
+
+    }*/
 
     @Transactional
     public List<MvtStock> save(Transformation transformation){

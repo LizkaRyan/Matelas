@@ -47,11 +47,11 @@ public class Matelas {
     private Matelas ancestor;
 
     @JsonView({POV.Public.class})
-    private float longueur;
+    private double longueur;
     @JsonView({POV.Public.class})
-    private float largeur;
+    private double largeur;
     @JsonView({POV.Public.class})
-    private float epaisseur;
+    private double epaisseur;
 
     @Column(name="prix_unitaire")
     @JsonView({POV.Public.class})
@@ -72,6 +72,13 @@ public class Matelas {
         this.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
     }
 
+    public Matelas(String longueur,String largeur,String epaisseur,String prixRevient){
+        this.setLongueur(Utilitaire.parseDouble(longueur));
+        this.setLargeur(Utilitaire.parseDouble(largeur));
+        this.setEpaisseur(Utilitaire.parseDouble(epaisseur));
+        this.setPrixUnitaire(Utilitaire.parseDouble(prixRevient));
+    }
+
     private void setRandLongueur(float min,float max){
     }
 
@@ -84,7 +91,7 @@ public class Matelas {
     }
 
     @JsonView({POV.Public.class})
-    public float getVolume(){
+    public double getVolume(){
         return longueur*largeur*epaisseur;
     }
 
@@ -100,19 +107,19 @@ public class Matelas {
         return this.getVolume()*origine.getPrixUnitaire()/origine.getVolume();
     }
 
-    public void setLongueur(float longueur)throws RuntimeException{
+    public void setLongueur(double longueur)throws RuntimeException{
         if(longueur<=0){
             throw new RuntimeException("Longueur negatif ou nulle ne peut pas etre accepte");
         }
         this.longueur=longueur;
     }
-    public void setLargeur(float largeur)throws RuntimeException{
+    public void setLargeur(double largeur)throws RuntimeException{
         if(largeur<=0){
             throw new RuntimeException("Largeur negatif ou nulle ne peut pas etre accepte");
         }
         this.largeur=largeur;
     }
-    public void setEpaisseur(float epaisseur)throws RuntimeException{
+    public void setEpaisseur(double epaisseur)throws RuntimeException{
         if(epaisseur<=0){
             throw new RuntimeException("Epaisseur negatif ou nulle ne peut pas etre accepte");
         }

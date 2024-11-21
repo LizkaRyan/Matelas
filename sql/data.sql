@@ -4,7 +4,8 @@ insert into type_matelas(type_matelas) values('Usuel');
 insert into machine(machine)
 values  ('Machine 1'),
         ('Machine 2'),
-        ('Machine 3');
+        ('Machine 3'),
+        ('Machine 4');
 
 insert into matiere_premiere(matiere_premiere)
 values ('Essence'),
@@ -12,8 +13,8 @@ values ('Essence'),
        ('Durcisseur');
 
 insert into formule(id_matiere_premiere,quantite)
-values  (1,2),
-        (2,3),
+values  (1,1),
+        (2,1),
         (3,0.5);
 
 insert into matelas(matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas,id_origine) values

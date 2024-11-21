@@ -6,6 +6,7 @@ import mg.itu.matelas.repository.fabrication.MachineRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -26,5 +27,10 @@ public class MachineService {
     @Transactional
     public List<Machine> findAllWithEcartByAnnee(int annee){
         return machineRepo.findMachineWithEcartByAnnee(annee);
+    }
+
+    @Transactional
+    public List<HashMap<String,String>> findTempTable(){
+        return machineRepo.findTableTemp();
     }
 }
