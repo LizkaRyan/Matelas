@@ -49,4 +49,38 @@ public final class Utilitaire {
         DayOfWeek dayOfWeek = date.getDayOfWeek(); // Récupérer le jour de la semaine
         return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
     }
+
+    public static String cleanAndFormat(String input) {
+        if (input == null) {
+            return null; // Gérer les cas où l'entrée est null
+        }
+        // Remplacer les virgules par des points
+        input = input.replace(",", ".");
+        // Supprimer tous les caractères sauf les chiffres et les points
+        return input.replaceAll("[^0-9.]", "");
+    }
+
+    public static LocalDate parseDate(String date){
+        return LocalDate.parse(cleanAndFormat(date));
+    }
+
+    public static double parseDouble(String value){
+        return Double.parseDouble(cleanAndFormat(value));
+    }
+
+    public static Long parseLong(String value){
+        return Long.parseLong(cleanAndFormat(value));
+    }
+
+    public static float parseFloat(String value){
+        return Float.parseFloat(cleanAndFormat(value));
+    }
+
+    public static float parseInt(String value){
+        return Integer.parseInt(cleanAndFormat(value));
+    }
+
+    public static double correct(String value){
+        return Double.parseDouble(cleanAndFormat(value));
+    }
 }

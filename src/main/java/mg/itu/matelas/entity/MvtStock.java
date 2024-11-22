@@ -1,7 +1,7 @@
 package mg.itu.matelas.entity;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -72,6 +72,12 @@ public class MvtStock {
 
     }
 
+    public MvtStock(Matelas matelas,String idMachine,String date){
+        this.setMachine(new Machine(Utilitaire.parseLong(idMachine),"M"+idMachine));
+        this.setMatelas(matelas);
+        this.setDateMvtStock(Utilitaire.parseDate(date));
+    }
+
     public MvtStock(Matelas bloc,Machine machine){
         this.setMatelas(bloc);
         this.setMachine(machine);
@@ -79,21 +85,28 @@ public class MvtStock {
         this.setEntree(1);
     }
 
-    public void setPrixRevientTheorique(HashMap<Long,List<MvtStockMatiere>> mvtStockMatieres, List<Formule> formules)throws RuntimeException{
+    public void setPrixRevientTheorique(Hashtable<Long, List<MvtStockMatiere>> mvtStockMatieres, List<Formule> formules)throws RuntimeException{
         for (Formule formule: formules) {
             Long idMatiere=formule.getMatierePremiere().getIdMatierePremiere();
-            double volume=this.getMatelas().getVolume();
+            //double volume=this.getMatelas().getVolume();
             double qteVoulu=this.getMatelas().getVolume()*formule.getQuantite();
-            this.setPrixRevientTheorique(mvtStockMatieres.get(idMatiere),formule,qteVoulu);
-            this.setEcart((this.getPrixRevient()/volume)-(this.getPrixRevientTheorique()/volume));
+            List<MvtStockMatiere> listMvtStockMatiere=mvtStockMatieres.get(idMatiere);
+            this.setPrixRevientTheorique(listMvtStockMatiere,formule,qteVoulu);
+            this.setEcart((this.getPrixRevient())-(this.getPrixRevientTheorique()));
         }
     }
 
     public void setPrixRevientTheorique(List<MvtStockMatiere> mvtStockMatieres,Formule formule,double qteVoulu)throws RuntimeException{
+        if(qteVoulu==0.0){
+            return;
+        }
         if(mvtStockMatieres.size()==0){
-            throw new RuntimeException("Il n'y a plus assez de "+formule.getMatierePremiere().getMatierePremiere());
+            throw new RuntimeException("Il n'y a plus assez de "+formule.getMatierePremiere().getMatierePremiere()+" qteVoulu="+qteVoulu);
         }
         MvtStockMatiere mvtStockMatiere=mvtStockMatieres.get(0);
+        if(mvtStockMatiere.getDateMvt().isAfter(this.getDateMvtStock())){
+            throw new RuntimeException("La date de creation du bloc est:"+this.getDateMvtStock()+" alors que l'achat de "+formule.getMatierePremiere().getMatierePremiere()+" la plus récente après est:"+mvtStockMatiere.getDateMvt()+" qteVoulu="+qteVoulu);
+        }
         double quantiteMvtStockMatiere=mvtStockMatiere.getQuantiteClone();
         if(quantiteMvtStockMatiere>qteVoulu) {
             mvtStockMatiere.setQuantiteClone(quantiteMvtStockMatiere - qteVoulu);
@@ -101,9 +114,9 @@ public class MvtStock {
             this.setPrixRevientTheorique(this.getPrixRevientTheorique() + prixRevient);
             return;
         }
-        double prixRevient=qteVoulu * mvtStockMatiere.getPrixUnitaire();
+        double prixRevient=quantiteMvtStockMatiere * mvtStockMatiere.getPrixUnitaire();
         this.setPrixRevientTheorique(this.getPrixRevientTheorique()+prixRevient);
-        qteVoulu=-mvtStockMatiere.getQuantite();
+        qteVoulu-=quantiteMvtStockMatiere;
         mvtStockMatieres.remove(0);
         this.setPrixRevientTheorique(mvtStockMatieres,formule,qteVoulu);
     }
