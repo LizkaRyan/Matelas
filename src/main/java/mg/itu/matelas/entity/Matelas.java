@@ -63,7 +63,8 @@ public class Matelas {
     public Matelas(){
 
     }
-    public Matelas(double prixRevientGlobal,float pourcentage){
+    public Matelas(Long id,double prixRevientGlobal,float pourcentage){
+        this.setIdMatelas(id);
         this.setLongueur(Utilitaire.generateNumberRand(5,7));
         this.setLargeur(Utilitaire.generateNumberRand(20,25));
         this.setEpaisseur(Utilitaire.generateNumberRand(10,15));
@@ -162,22 +163,26 @@ public class Matelas {
         this.setEtat(ConstanteEtat.NON_UTILISE);
     }
 
-    public static List<Matelas> init(){
+    public static List<Matelas> init(Long id){
         List<Matelas> matelas=new ArrayList<Matelas>();
         Matelas matela=new Matelas();
+        matela.setIdMatelas(id);
         matela.setLongueur(3);
         matela.setLargeur(23.21f);
         matela.setEpaisseur(13.12f);
         matela.setPrixUnitaire(1000000);
         matela.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
         matelas.add(matela);
+        id++;
         matela=new Matelas();
+        matela.setIdMatelas(id);
         matela.setLongueur(2.18f);
         matela.setLargeur(24.44f);
         matela.setEpaisseur(12.99f);
         matela.setPrixUnitaire(2500000);
         matela.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
         matelas.add(matela);
+        id++;
         return matelas;
     }
 

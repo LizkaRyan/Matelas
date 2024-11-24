@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import mg.itu.matelas.entity.fabrication.Machine;
 import mg.itu.matelas.service.fabrication.MachineService;
+import mg.itu.matelas.utils.Utilitaire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,12 @@ public class MatelasService {
         return matelasRepository.save(matelas);
     }
 
+    @Transactional
+    public void updateSequence(Long id){
+        jdbcTemplate.execute("ALTER SEQUENCE matelas_id_matelas_seq RESTART WITH "+id);
+        //matelasRepository.updateSequence(id);
+    }
+
     public void saveMatelas(List<Matelas> matelas){
         String sql = "insert into matelas(longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas,id_matelas) ";
         sql+="values(?,?,?,?,2,1)";
@@ -68,6 +76,11 @@ public class MatelasService {
         return matelasRepository.findById(id).orElseThrow(()->new RuntimeException("Bloc non trouve"));
     }
 
+    @Transactional
+    public Long getId(){
+        return matelasRepository.getId();
+    }
+
     public void saveAll(){
         List<HashMap<String,String>> temps=machineService.findTempTable();
         List<Matelas> matelas=new ArrayList<Matelas>();
@@ -79,5 +92,30 @@ public class MatelasService {
         }
         this.saveMatelas(matelas);
         mvtStockService.saveMvtStock(mvtStocks);
+    }
+
+    @Transactional
+    public void createData(){
+        List<Machine> machines=machineService.findAll();
+        Long id= this.getId();
+        List<Matelas> matelasList=Matelas.init(id);
+        id+=matelasList.size();
+        List<MvtStock> mvtStocks=new ArrayList<MvtStock>();
+        for (int i = 0; i < matelasList.size(); i++) {
+            matelasList.get(i).setMatelas("Matelas "+(i+1));
+            mvtStocks.add(new MvtStock(matelasList.get(i),machines.get((int) Utilitaire.generateNumberRand(0,matelasList.size()-1))));
+        }
+        int taille=1_000_000-matelasList.size();
+        double moyenne=Matelas.getMoyennePRU(matelasList);
+        for (int i = 0; i < taille; i++) {
+            Matelas matelas=new Matelas(id,moyenne,10);
+            matelas.setMatelas("Matelas "+(i+1));
+            //matelasList.add(matelas);
+            mvtStocks.add(new MvtStock(matelas,machines.get((int)Utilitaire.generateNumberRand(0,matelasList.size()-1))));
+            id++;
+        }
+        mvtStockService.saveMatelasByMvtStock(mvtStocks);
+        mvtStockService.saveMvtStock(mvtStocks);
+        this.updateSequence(id);
     }
 }

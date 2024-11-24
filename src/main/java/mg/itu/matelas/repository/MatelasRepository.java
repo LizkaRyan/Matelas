@@ -26,4 +26,10 @@ public interface MatelasRepository extends JpaRepository<Matelas, Long> {
 
     @Query("select m from Matelas m join m.typeMatelas t where t.typeMatelas='Reste' and m.etat=1")
     public List<Matelas> findReste();
+
+    @Query(value = "select nextval('matelas_id_matelas_seq')",nativeQuery = true)
+    public Long getId();
+
+    @Query(value = "ALTER SEQUENCE matelas_id_matelas_seq RESTART WITH :id",nativeQuery = true)
+    public void updateSequence(@Param("id") Long id);
 }
