@@ -26,7 +26,7 @@ public final class Utilitaire {
         while(true){
             long randomEpochDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay + 1); // Générer un jour aléatoire
             LocalDate date=LocalDate.ofEpochDay(randomEpochDay);
-            if(isWeekend(date)){
+            if(!isWeekend(date)){
                 return date;
             }
         }
@@ -36,7 +36,7 @@ public final class Utilitaire {
         while(true){
             long randomEpochSecond = ThreadLocalRandom.current().nextLong(startEpochSecond, endEpochSecond + 1); // Générer un timestamp aléatoire
             LocalDateTime date=LocalDateTime.ofEpochSecond(randomEpochSecond, 0, ZoneOffset.UTC);
-            if(isWeekend(date.toLocalDate())){
+            if(!isWeekend(date.toLocalDate())){
                 return date;
             }
         }
