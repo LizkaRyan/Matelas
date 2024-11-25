@@ -2,6 +2,7 @@ package mg.itu.matelas.controller.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.servlet.http.HttpSession;
+import mg.itu.matelas.dto.RandomDTO;
 import mg.itu.matelas.entity.MvtStock;
 import mg.itu.matelas.entity.fabrication.Formule;
 import mg.itu.matelas.entity.fabrication.Machine;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import mg.itu.matelas.entity.Matelas;
 import mg.itu.matelas.service.MatelasService;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -51,6 +53,17 @@ public class MatelasRestController {
     @JsonView(POV.Public.class)
     public String createRand(){
         matelasService.createData();
+        return "Vita";
+    }
+
+
+    @PostMapping("/generate")
+    public String formGenerate(@ModelAttribute RandomDTO randomDTO){
+        System.out.println(randomDTO.getLongueurMin()+" - "+ randomDTO.getLongueurMax());
+        System.out.println(randomDTO.getLargeurMin()+" - "+ randomDTO.getLargeurMax());
+        System.out.println(randomDTO.getEpaisseurMin()+" - "+ randomDTO.getEpaisseurMax());
+        System.out.println(randomDTO.getDateMin()+" - "+ randomDTO.getDateMax());
+        matelasService.createData(randomDTO);
         return "Vita";
     }
 

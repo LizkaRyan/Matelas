@@ -26,44 +26,68 @@
 <jsp:include page="../nav.jsp" />
 <div class="container">
     <div class="form">
-        <form action="/matelas" method="post">
+        <form action="/matelas/rest/generate" method="post">
             <div class="row mb-3">
-                <h5>Formulaire d'insertion de bloc</h5>
+                <h5>Formulaire de generation</h5>
             </div>
             <div class="row">
                 <div class="form-floating mb-3">
-                    <input type="text" name="matelas" class="form-control" id="floatingInput" placeholder="designation">
-                    <label for="floatingInput">Designation</label>
+                    <input type="number" name="nombre" class="form-control" id="floatingInput" placeholder="designation">
+                    <label for="floatingInput">Nombre donnees</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating mb-3">
-                    <input type="number" name="longueur" class="form-control" id="floatingInput" placeholder="designation">
-                    <label for="floatingInput">Longueur</label>
+                    <input type="number" name="longueurMin" class="form-control" id="floatingInput" placeholder="designation">
+                    <label for="floatingInput">Min Longueur</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating mb-3">
-                    <input type="number" name="largeur" class="form-control" id="floatingInput" placeholder="designation">
-                    <label for="floatingInput">Largeur</label>
+                    <input type="number" name="longueurMax" class="form-control" id="floatingInput" placeholder="designation">
+                    <label for="floatingInput">Max Longueur</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating mb-3">
-                    <input type="number" name="epaisseur" class="form-control" id="floatingInput" placeholder="designation">
-                    <label for="floatingInput">Epaisseur</label>
+                    <input type="number" name="largeurMin" class="form-control" id="floatingInput" placeholder="designation">
+                    <label for="floatingInput">Min Largeur</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating mb-3">
-                    <input type="number" name="prixUnitaire" class="form-control" id="floatingInput" placeholder="designation">
-                    <label for="floatingInput">Prix de revient</label>
+                    <input type="number" name="largeurMax" class="form-control" id="floatingInput" placeholder="designation">
+                    <label for="floatingInput">Max Largeur</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating mb-3">
-                    <input type="date" name="dateInsertion" class="form-control" id="floatingInput" placeholder="designation">
-                    <label for="floatingInput">Date</label>
+                    <input type="number" name="epaisseurMin" class="form-control" id="floatingInput" placeholder="designation">
+                    <label for="floatingInput">Min epaisseur</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating mb-3">
+                    <input type="number" name="epaisseurMax" class="form-control" id="floatingInput" placeholder="designation">
+                    <label for="floatingInput">Max epaisseur</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating mb-3">
+                    <input type="date" name="dateMin" class="form-control" id="floatingInput" placeholder="designation">
+                    <label for="floatingInput">Date Min</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating mb-3">
+                    <input type="date" name="dateMax" class="form-control" id="floatingInput" placeholder="designation">
+                    <label for="floatingInput">Date Max</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating mb-3">
+                    <input type="number" name="pourcentage" class="form-control" id="floatingInput" placeholder="designation">
+                    <label for="floatingInput">Pourcentage</label>
                 </div>
             </div>
             <div class="row">

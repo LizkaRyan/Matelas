@@ -3,6 +3,8 @@ package mg.itu.matelas.controller;
 import mg.itu.matelas.entity.Matelas;
 import mg.itu.matelas.service.MatelasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +20,9 @@ public class MatelasController {
     @Autowired
     private MatelasService matelasService;
 
+    @Autowired
+    private MatelasRepository matelasRepository;
+
     @GetMapping("/form")
     public ModelAndView getForm() {
         return new ModelAndView("matelas/form");
@@ -32,6 +37,15 @@ public class MatelasController {
     public ModelAndView getBlocs() {
         ModelAndView model=new ModelAndView("matelas/liste");
         model.addObject("blocs",matelasService.findBloc());
+        return model;
+    }
+
+    @GetMapping("/list/blocs/page")
+    public ModelAndView getBlocs(@RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "10") int size) {
+        ModelAndView model=new ModelAndView("matelas/listePage");
+        Page<Matelas> pageBloc=matelasRepository.findAll(PageRequest.of(page-1,size));
+        model.addObject("blocs",pageBloc.getContent());
+        model.addObject("currentPage",page);
         return model;
     }
     @GetMapping("/update/{id}")

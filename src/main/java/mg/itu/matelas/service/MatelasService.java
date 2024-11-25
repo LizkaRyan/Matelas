@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import mg.itu.matelas.dto.RandomDTO;
 import mg.itu.matelas.entity.fabrication.Machine;
 import mg.itu.matelas.service.fabrication.MachineService;
 import mg.itu.matelas.utils.Utilitaire;
@@ -98,19 +99,32 @@ public class MatelasService {
     public void createData(){
         List<Machine> machines=machineService.findAll();
         Long id= this.getId();
-        List<Matelas> matelasList=Matelas.init(id);
-        id+=matelasList.size();
+        List<Matelas> matelasList=matelasRepository.findAll();
         List<MvtStock> mvtStocks=new ArrayList<MvtStock>();
-        for (int i = 0; i < matelasList.size(); i++) {
-            matelasList.get(i).setMatelas("Matelas "+(i+1));
-            mvtStocks.add(new MvtStock(matelasList.get(i),machines.get((int) Utilitaire.generateNumberRand(0,4)).getIdMachine()));
-        }
         int taille=1_000_000-matelasList.size();
         double moyenne=Matelas.getMoyennePRU(matelasList);
         for (int i = 0; i < taille; i++) {
             Matelas matelas=new Matelas(id,moyenne,10);
-            matelas.setMatelas("Matelas "+(i+1));
-            //matelasList.add(matelas);
+            matelas.setMatelas("Matelas "+id);
+            mvtStocks.add(new MvtStock(matelas,machines.get((int) Utilitaire.generateNumberRand(0,4)).getIdMachine()));
+            id++;
+        }
+        mvtStockService.saveMatelasByMvtStock(mvtStocks);
+        mvtStockService.saveMvtStock(mvtStocks);
+        this.updateSequence(id);
+    }
+
+    @Transactional
+    public void createData(RandomDTO randomDTO){
+        List<Machine> machines=machineService.findAll();
+        Long id= this.getId();
+        List<Matelas> matelasList=matelasRepository.findAll();
+        List<MvtStock> mvtStocks=new ArrayList<MvtStock>();
+        int taille=randomDTO.getNombre()-matelasList.size();
+        double moyenne=Matelas.getMoyennePRU(matelasList);
+        for (int i = 0; i < taille; i++) {
+            Matelas matelas=new Matelas(id,moyenne,randomDTO);
+            matelas.setMatelas("Matelas "+id);
             mvtStocks.add(new MvtStock(matelas,machines.get((int) Utilitaire.generateNumberRand(0,4)).getIdMachine()));
             id++;
         }

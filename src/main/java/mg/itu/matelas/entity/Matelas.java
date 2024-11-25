@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import mg.itu.matelas.dto.Metrage;
+import mg.itu.matelas.dto.RandomDTO;
 import mg.itu.matelas.dto.TransformationDTO;
 import mg.itu.matelas.other.ConstanteEtat;
 import mg.itu.matelas.other.POV;
@@ -69,6 +70,16 @@ public class Matelas {
         this.setLargeur(Utilitaire.generateNumberRand(20,25));
         this.setEpaisseur(Utilitaire.generateNumberRand(10,15));
         double prixRevient=prixRevientGlobal*Utilitaire.generateNumberRand(-pourcentage,pourcentage)/100f;
+        this.setPrixUnitaire(prixRevientGlobal+prixRevient);
+        this.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
+    }
+
+    public Matelas(Long id, double prixRevientGlobal, RandomDTO randomDTO){
+        this.setIdMatelas(id);
+        this.setLongueur(Utilitaire.generateNumberRand(randomDTO.getLongueurMin(),randomDTO.getLongueurMax()));
+        this.setLargeur(Utilitaire.generateNumberRand(randomDTO.getLargeurMin(),randomDTO.getLargeurMax()));
+        this.setEpaisseur(Utilitaire.generateNumberRand(randomDTO.getEpaisseurMin(),randomDTO.getEpaisseurMax()));
+        double prixRevient=prixRevientGlobal*Utilitaire.generateNumberRand(-randomDTO.getPourcentage(),randomDTO.getPourcentage())/100f;
         this.setPrixUnitaire(prixRevientGlobal+prixRevient);
         this.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
     }
