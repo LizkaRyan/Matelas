@@ -2,7 +2,6 @@ package mg.itu.matelas.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import mg.itu.matelas.entity.fabrication.Machine;
 import mg.itu.matelas.entity.fabrication.MvtStockMatiere;
 import mg.itu.matelas.service.fabrication.MachineService;
 import mg.itu.matelas.service.fabrication.MvtStockMatiereService;
-import org.springframework.beans.factory.annotation.Autowired;
+import mg.itu.matelas.utils.Utilitaire;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -54,26 +53,6 @@ public class MvtStockService {
         return mvtStockRepository.findMvtBloc();
     }
 
-    @Transactional
-    public MvtStock createData(){
-        List<Machine> machines=machineService.findAll();
-        List<Matelas> matelasList=Matelas.init();
-        MvtStock mvtStock=null;
-        for (int i = 0; i < matelasList.size(); i++) {
-            matelasList.get(i).setMatelas("Matelas "+(i+1));
-            mvtStock=new MvtStock(matelasList.get(i),machines.get(i%machines.size()));
-            mvtStock=this.save(mvtStock);
-        }
-        double moyenne=Matelas.getMoyennePRU(matelasList);
-        for (int i = 0; i < 5-matelasList.size(); i++) {
-            Matelas matelas=new Matelas(moyenne,10);
-            matelas.setMatelas("Matelas "+(i+1));
-            mvtStock=new MvtStock(matelas,machines.get(i%machines.size()));
-            mvtStock=this.save(mvtStock);
-        }
-        return mvtStock;
-    }
-
     public void updateMvtStockWithPrixRevientTheorique(List<Formule> formules){
         List<MvtStock> mvtStocks=this.findMvtBloc();
         Hashtable<Long,List<MvtStockMatiere>> listMvtStockMatiere=mvtStockMatiereService.findMvtStockMatiereGroupByMatiere();
@@ -98,8 +77,21 @@ public class MvtStockService {
         jdbcTemplate.batchUpdate(sql, mvtStocks, 1000, (ps, mvtStock) -> {
             ps.setDate(1, Date.valueOf(mvtStock.getDateMvtStock()));
             ps.setDouble(2, mvtStock.getPrixRevient());
-            ps.setLong(3, mvtStock.getMachine().getIdMachine());
+            ps.setLong(3, mvtStock.getIdMachine());
             ps.setLong(4,mvtStock.getMatelas().getIdMatelas());
+        });
+    }
+
+    public void saveMatelasByMvtStock(List<MvtStock> mvtStocks){
+        String sql = "insert into matelas(id_matelas,matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas,id_origine) values" +
+                     " (?,?,?,?,?,?,1,1,null)";
+        jdbcTemplate.batchUpdate(sql, mvtStocks, 1000, (ps, mvtStock) -> {
+            ps.setLong(1, mvtStock.getMatelas().getIdMatelas());
+            ps.setString(2, mvtStock.getMatelas().getMatelas());
+            ps.setDouble(3, mvtStock.getMatelas().getLongueur());
+            ps.setDouble(4,mvtStock.getMatelas().getLargeur());
+            ps.setDouble(5,mvtStock.getMatelas().getEpaisseur());
+            ps.setDouble(6,mvtStock.getMatelas().getPrixUnitaire());
         });
     }
 

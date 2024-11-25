@@ -49,8 +49,9 @@ public class MatelasRestController {
 
     @GetMapping("/create_rand")
     @JsonView(POV.Public.class)
-    public MvtStock createRand(){
-        return mvtStockService.createData();
+    public String createRand(){
+        matelasService.createData();
+        return "Vita";
     }
 
     @GetMapping("/update_all")

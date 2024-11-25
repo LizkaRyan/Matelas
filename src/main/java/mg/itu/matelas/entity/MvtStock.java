@@ -59,6 +59,9 @@ public class MvtStock {
     private double ecart;
 
     @Transient
+    private Long idMachine;
+
+    @Transient
     private double prixRevientTheorique;
 
     protected void setEcart(double ecart){
@@ -78,9 +81,9 @@ public class MvtStock {
         this.setDateMvtStock(Utilitaire.parseDate(date));
     }
 
-    public MvtStock(Matelas bloc,Machine machine){
+    public MvtStock(Matelas bloc,Long idMachine){
         this.setMatelas(bloc);
-        this.setMachine(machine);
+        this.setIdMachine(idMachine);
         this.setDateMvtStock(Utilitaire.generateDateRand(LocalDate.of(2022,1,1),LocalDate.of(2024,12,31)));
         this.setEntree(1);
     }
