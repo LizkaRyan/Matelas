@@ -77,7 +77,7 @@ public class MvtStockService {
         jdbcTemplate.batchUpdate(sql, mvtStocks, 1000, (ps, mvtStock) -> {
             ps.setDate(1, Date.valueOf(mvtStock.getDateMvtStock()));
             ps.setDouble(2, mvtStock.getPrixRevient());
-            ps.setLong(3, mvtStock.getMachine().getIdMachine());
+            ps.setLong(3, mvtStock.getIdMachine());
             ps.setLong(4,mvtStock.getMatelas().getIdMatelas());
         });
     }

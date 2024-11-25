@@ -103,7 +103,7 @@ public class MatelasService {
         List<MvtStock> mvtStocks=new ArrayList<MvtStock>();
         for (int i = 0; i < matelasList.size(); i++) {
             matelasList.get(i).setMatelas("Matelas "+(i+1));
-            mvtStocks.add(new MvtStock(matelasList.get(i),machines.get((int) Utilitaire.generateNumberRand(0,matelasList.size()-1))));
+            mvtStocks.add(new MvtStock(matelasList.get(i),machines.get((int) Utilitaire.generateNumberRand(0,4)).getIdMachine()));
         }
         int taille=1_000_000-matelasList.size();
         double moyenne=Matelas.getMoyennePRU(matelasList);
@@ -111,7 +111,7 @@ public class MatelasService {
             Matelas matelas=new Matelas(id,moyenne,10);
             matelas.setMatelas("Matelas "+(i+1));
             //matelasList.add(matelas);
-            mvtStocks.add(new MvtStock(matelas,machines.get((int)Utilitaire.generateNumberRand(0,matelasList.size()-1))));
+            mvtStocks.add(new MvtStock(matelas,machines.get((int) Utilitaire.generateNumberRand(0,4)).getIdMachine()));
             id++;
         }
         mvtStockService.saveMatelasByMvtStock(mvtStocks);
