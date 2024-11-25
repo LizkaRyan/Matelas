@@ -22,20 +22,23 @@ import mg.itu.matelas.repository.TransformationRepository;
 
 @Service
 public class TransformationService {
-    @Autowired
-    private TransformationRepository transformationRepository;
+    private final TransformationRepository transformationRepository;
 
-    @Autowired
-    private MatelasService matelasService;
+    private final MatelasService matelasService;
 
-    @Autowired
-    private TransformationProduitService transformationProduitService;
+    private final TransformationProduitService transformationProduitService;
 
-    @Autowired
-    private MvtStockService mvtStockService;
+    private final MvtStockService mvtStockService;
 
-    @Autowired
-    private TransformationConfig transformationConfig;
+    private final TransformationConfig transformationConfig;
+
+    public TransformationService(TransformationRepository transformationRepository, MatelasService matelasService, TransformationProduitService transformationProduitService, MvtStockService mvtStockService, TransformationConfig transformationConfig) {
+        this.transformationRepository = transformationRepository;
+        this.matelasService = matelasService;
+        this.transformationProduitService = transformationProduitService;
+        this.mvtStockService = mvtStockService;
+        this.transformationConfig = transformationConfig;
+    }
 
 
     public List<Transformation> findAll(){

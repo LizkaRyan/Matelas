@@ -21,19 +21,34 @@
 <body>
 <jsp:include page="../nav.jsp" />
 <div class="container">
+    <form action="/machine/filter">
+        <select name="annee">
+            <option value="0">Tous</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+        </select>
+        <button class="btn-primary">Filtrer</button>
+    </form>
     <h1>ETU002459</h1>
     <div class="row mb-3 mt-3">
         <table class="table table-striped">
             <tr>
                 <th>Position</th>
                 <th>Machine</th>
-                <th>ecart</th>
+                <th>Quantite</th>
+                <th>Prix de revient pratique</th>
+                <th>Prix de revient theorique</th>
+                <th>Ecart/m^3</th>
             </tr>
             <% for (int i = 0; i < machines.size(); i++) {
             %>
             <tr>
                 <td><%= (i+1) %></td>
                 <td><%= machines.get(i).getMachine() %></td>
+                <td><%= machines.get(i).getQuantite() %></td>
+                <td><%= machines.get(i).getPrixRevient() %></td>
+                <td><%= machines.get(i).getPrixRevient()-machines.get(i).getEcart() %></td>
                 <td><%= machines.get(i).getEcart() %></td>
             </tr>
             <% } %>

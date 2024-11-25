@@ -17,11 +17,14 @@ import mg.itu.matelas.repository.TransformationRepository;
 
 @Service
 public class TransformationProduitService {
-    @Autowired
-    private TransformationRepository transformationRepository;
+    private final TransformationRepository transformationRepository;
 
-    @Autowired
-    private MatelasService matelasService;
+    private final MatelasService matelasService;
+
+    public TransformationProduitService(TransformationRepository transformationRepository, MatelasService matelasService) {
+        this.transformationRepository = transformationRepository;
+        this.matelasService = matelasService;
+    }
 
     @Transactional
     public List<TransformationProduit> save(List<TransformationProduitDTO> transformationProduitDTOs,Transformation transformation)throws Exception{

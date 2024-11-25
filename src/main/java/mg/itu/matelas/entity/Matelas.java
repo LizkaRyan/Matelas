@@ -47,11 +47,11 @@ public class Matelas {
     private Matelas ancestor;
 
     @JsonView({POV.Public.class})
-    private float longueur;
+    private double longueur;
     @JsonView({POV.Public.class})
-    private float largeur;
+    private double largeur;
     @JsonView({POV.Public.class})
-    private float epaisseur;
+    private double epaisseur;
 
     @Column(name="prix_unitaire")
     @JsonView({POV.Public.class})
@@ -63,13 +63,22 @@ public class Matelas {
     public Matelas(){
 
     }
-    public Matelas(double prixRevientGlobal,float pourcentage){
+    public Matelas(Long id,double prixRevientGlobal,float pourcentage){
+        this.setIdMatelas(id);
         this.setLongueur(Utilitaire.generateNumberRand(5,7));
         this.setLargeur(Utilitaire.generateNumberRand(20,25));
         this.setEpaisseur(Utilitaire.generateNumberRand(10,15));
         double prixRevient=prixRevientGlobal*Utilitaire.generateNumberRand(-pourcentage,pourcentage)/100f;
         this.setPrixUnitaire(prixRevientGlobal+prixRevient);
         this.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
+    }
+
+    public Matelas(String idMatelas,String longueur,String largeur,String epaisseur,String prixRevient){
+        this.setLongueur(Utilitaire.parseDouble(longueur));
+        this.setLargeur(Utilitaire.parseDouble(largeur));
+        this.setEpaisseur(Utilitaire.parseDouble(epaisseur));
+        this.setPrixUnitaire(Utilitaire.parseDouble(prixRevient));
+        this.setIdMatelas(Utilitaire.parseLong(idMatelas));
     }
 
     private void setRandLongueur(float min,float max){
@@ -84,7 +93,7 @@ public class Matelas {
     }
 
     @JsonView({POV.Public.class})
-    public float getVolume(){
+    public double getVolume(){
         return longueur*largeur*epaisseur;
     }
 
@@ -100,19 +109,19 @@ public class Matelas {
         return this.getVolume()*origine.getPrixUnitaire()/origine.getVolume();
     }
 
-    public void setLongueur(float longueur)throws RuntimeException{
+    public void setLongueur(double longueur)throws RuntimeException{
         if(longueur<=0){
             throw new RuntimeException("Longueur negatif ou nulle ne peut pas etre accepte");
         }
         this.longueur=longueur;
     }
-    public void setLargeur(float largeur)throws RuntimeException{
+    public void setLargeur(double largeur)throws RuntimeException{
         if(largeur<=0){
             throw new RuntimeException("Largeur negatif ou nulle ne peut pas etre accepte");
         }
         this.largeur=largeur;
     }
-    public void setEpaisseur(float epaisseur)throws RuntimeException{
+    public void setEpaisseur(double epaisseur)throws RuntimeException{
         if(epaisseur<=0){
             throw new RuntimeException("Epaisseur negatif ou nulle ne peut pas etre accepte");
         }
@@ -154,22 +163,26 @@ public class Matelas {
         this.setEtat(ConstanteEtat.NON_UTILISE);
     }
 
-    public static List<Matelas> init(){
+    public static List<Matelas> init(Long id){
         List<Matelas> matelas=new ArrayList<Matelas>();
         Matelas matela=new Matelas();
+        matela.setIdMatelas(id);
         matela.setLongueur(3);
         matela.setLargeur(23.21f);
         matela.setEpaisseur(13.12f);
         matela.setPrixUnitaire(1000000);
         matela.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
         matelas.add(matela);
+        id++;
         matela=new Matelas();
+        matela.setIdMatelas(id);
         matela.setLongueur(2.18f);
         matela.setLargeur(24.44f);
         matela.setEpaisseur(12.99f);
         matela.setPrixUnitaire(2500000);
         matela.setTypeMatelas(new TypeMatelas(1l,"Bloc"));
         matelas.add(matela);
+        id++;
         return matelas;
     }
 

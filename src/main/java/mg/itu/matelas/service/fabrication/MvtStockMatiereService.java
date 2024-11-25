@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 @Service
@@ -22,9 +23,9 @@ public class MvtStockMatiereService {
     }
 
     @Transactional
-    public HashMap<Long, List<MvtStockMatiere>> findMvtStockMatiereGroupByMatiere(){
+    public Hashtable<Long, List<MvtStockMatiere>> findMvtStockMatiereGroupByMatiere(){
         List<MatierePremiere> matierePremieres=matierePremiereService.findAll();
-        HashMap<Long,List<MvtStockMatiere>> answer=new HashMap<Long,List<MvtStockMatiere>>();
+        Hashtable<Long,List<MvtStockMatiere>> answer=new Hashtable<Long,List<MvtStockMatiere>>();
         for (MatierePremiere matierePremiere:matierePremieres) {
             Long idMatiere=matierePremiere.getIdMatierePremiere();
             answer.put(idMatiere,this.findByIdMatiere(idMatiere));

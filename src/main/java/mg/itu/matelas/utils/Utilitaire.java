@@ -11,6 +11,10 @@ public final class Utilitaire {
         return (float)(min + (max - min) * (float) Math.random());
     }
 
+    public static Long generateNumberRandLong(long min,long max){
+        return (Long)(min + (max - min) * (long) Math.random());
+    }
+
     public static LocalDate generateDateRand(LocalDate dateMin,LocalDate dateMax){
         long startEpochDay = dateMin.toEpochDay(); // Nombre de jours depuis Epoch
         long endEpochDay = dateMax.toEpochDay();
@@ -48,5 +52,39 @@ public final class Utilitaire {
     public static boolean isWeekend(LocalDate date){
         DayOfWeek dayOfWeek = date.getDayOfWeek(); // Récupérer le jour de la semaine
         return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
+    }
+
+    public static String cleanAndFormat(String input) {
+        if (input == null) {
+            return null; // Gérer les cas où l'entrée est null
+        }
+        // Remplacer les virgules par des points
+        input = input.replace(",", ".");
+        // Supprimer tous les caractères sauf les chiffres et les points
+        return input.replaceAll("[^0-9.]", "");
+    }
+
+    public static LocalDate parseDate(String date){
+        return LocalDate.parse(cleanAndFormat(date));
+    }
+
+    public static double parseDouble(String value){
+        return Double.parseDouble(cleanAndFormat(value));
+    }
+
+    public static Long parseLong(String value){
+        return Long.parseLong(cleanAndFormat(value));
+    }
+
+    public static float parseFloat(String value){
+        return Float.parseFloat(cleanAndFormat(value));
+    }
+
+    public static float parseInt(String value){
+        return Integer.parseInt(cleanAndFormat(value));
+    }
+
+    public static double correct(String value){
+        return Double.parseDouble(cleanAndFormat(value));
     }
 }

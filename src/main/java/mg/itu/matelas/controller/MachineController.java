@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -26,6 +27,18 @@ public class MachineController {
     public ModelAndView findAll(){
         ModelAndView model=new ModelAndView("machine/index");
         model.addObject("machines",machineService.findAllWithEcart());
+        return model;
+    }
+
+    @GetMapping("/filter")
+    @JsonView(POV.Public.class)
+    public ModelAndView findAllFilter(@RequestParam("annee") int annee){
+        ModelAndView model=new ModelAndView("machine/index");
+        if(annee==0){
+            model.addObject("machines",machineService.findAllWithEcart());
+            return model;
+        }
+        model.addObject("machines",machineService.findAllWithEcartByAnnee(annee));
         return model;
     }
 
