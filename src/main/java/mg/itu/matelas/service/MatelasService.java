@@ -101,11 +101,11 @@ public class MatelasService {
         Long id= this.getId();
         List<Matelas> matelasList=matelasRepository.findAll();
         List<MvtStock> mvtStocks=new ArrayList<MvtStock>();
-        int taille=1_000_000-matelasList.size();
+        int taille=1_000_000;
         double moyenne=Matelas.getMoyennePRU(matelasList);
         for (int i = 0; i < taille; i++) {
             Matelas matelas=new Matelas(id,moyenne,10);
-            matelas.setMatelas("Matelas "+id);
+            matelas.setMatelas("Bloc "+id);
             mvtStocks.add(new MvtStock(matelas,machines.get((int) Utilitaire.generateNumberRand(0,4)).getIdMachine()));
             id++;
         }
@@ -120,7 +120,7 @@ public class MatelasService {
         Long id= this.getId();
         List<Matelas> matelasList=matelasRepository.findAll();
         List<MvtStock> mvtStocks=new ArrayList<MvtStock>();
-        int taille=randomDTO.getNombre()-matelasList.size();
+        int taille=randomDTO.getNombre();
         double moyenne=Matelas.getMoyennePRU(matelasList);
         for (int i = 0; i < taille; i++) {
             Matelas matelas=new Matelas(id,moyenne,randomDTO);

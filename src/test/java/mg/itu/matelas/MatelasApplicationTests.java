@@ -1,5 +1,6 @@
 package mg.itu.matelas;
 
+import mg.itu.matelas.entity.Matelas;
 import mg.itu.matelas.utils.Utilitaire;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,7 +12,8 @@ class MatelasApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println(Utilitaire.isWeekend(LocalDate.of(2024,11,22)));
+		Matelas matelas=new Matelas(1l,1000000d,10);
+		System.out.println(matelas.getPrixUnitaire());
 	}
 
 }

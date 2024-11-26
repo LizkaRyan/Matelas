@@ -19,7 +19,7 @@
           <a class="nav-link" href="/transformation/benefice">Voir benefice</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/mvt_stock">Voir stock</a>
+          <a class="nav-link" href="/machine">Voir machine</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/matelas/list/blocs/page">Liste blocs</a>

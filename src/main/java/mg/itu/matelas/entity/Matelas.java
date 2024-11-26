@@ -154,9 +154,6 @@ public class Matelas {
         }
         this.setAncestor(ancetre);
         this.setMatelas("Reste bloc "+origine.getIdMatelas());
-        System.out.println(transformationDTO.getEpaisseurMetrage()+" metrage epaisseur");
-        System.out.println(transformationDTO.getLongueurMetrage()+" metrage longueur");
-        System.out.println(transformationDTO.getLargeurMetrage()+" metrage largeur");
         Metrage metrageLongueur=new Metrage();
         Metrage metrageEpaisseur=new Metrage(transformationDTO.getEpaisseurReste(),transformationDTO.getEpaisseurMetrage());
         Metrage metrageLargeur=new Metrage(transformationDTO.getLargeurReste(),transformationDTO.getLargeurMetrage());
