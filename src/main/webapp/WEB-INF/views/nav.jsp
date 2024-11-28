@@ -13,16 +13,16 @@
           <a class="nav-link" href="/matelas/form">Insertion matelas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/transformation/form">Insertion transformation</a>
+          <a class="nav-link" href="/mvt_stock/form_generate">Formule generation random</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/transformation/benefice">Voir benefice</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/mvt_stock">Voir stock</a>
+          <a class="nav-link" href="/machine">Voir machine</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/matelas/list/blocs">Liste blocs</a>
+          <a class="nav-link" href="/matelas/list/blocs/page">Liste blocs</a>
         </li>
       </ul>
     </div>

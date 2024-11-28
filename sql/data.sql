@@ -18,11 +18,11 @@ values  (1,1),
         (3,0.5);
 
 insert into matelas(matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas,id_origine) values
-    ('Bloc 1',100,20,10, 2000000,1,1,null),
-    ('Bloc 2',100,40,10, 3000000,1,1,null);
+    ('Bloc 1',7,20,7, 1500000,1,1,null),
+    ('Bloc 2',100,40,10, 1200000,1,1,null);
 
-insert into mvt_stock(entree,sortie,prix_unitaire,date_mvt_stock,id_matelas,prix_revient) values(1,0,0,NOW(),1,2000000);
-insert into mvt_stock(entree,sortie,prix_unitaire,date_mvt_stock,id_matelas,prix_revient) values(1,0,0,NOW(),2,3000000);
+insert into mvt_stock(entree,sortie,prix_unitaire,date_mvt_stock,id_matelas,prix_revient,ecart,id_machine) values(1,0,0,NOW(),1,1500000,0,1);
+insert into mvt_stock(entree,sortie,prix_unitaire,date_mvt_stock,id_matelas,prix_revient,ecart,id_machine) values(1,0,0,NOW(),2,1200000,0,2);
 
 insert into mvt_stock_matiere(quantite,prix_unitaire,date_mvt,id_matiere_premiere)
 values  (224727345,6000,'2024-01-01',1),
@@ -43,6 +43,6 @@ values  (224727345,6000,'2024-01-01',1),
 --    (1,4,25,32500),
 --    (1,5,30,50);
 
-COPY (select id_matelas,prix_revient-ecart as theorique from mvt_stock) TO 'C:\Users\ryrab\Desktop\Ryan\Etudes\S5\ArchitectureLogiciel\Matelas\matelas\Matelas' DELIMITER ',' CSV HEADER;
+-- COPY (select id_matelas,prix_revient-ecart as theorique from mvt_stock) TO 'C:\Users\ryrab\Desktop\Ryan\Etudes\S5\ArchitectureLogiciel\Matelas\matelas\Matelas' DELIMITER ',' CSV HEADER;
 
 -- insert into matelas(matelas,longueur,largeur,epaisseur,prix_unitaire,etat,id_type_matelas,id_origine) values('Reste B1',2,3,0.5,31250,1,1,1);

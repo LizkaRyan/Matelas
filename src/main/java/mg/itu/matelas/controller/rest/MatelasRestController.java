@@ -2,6 +2,7 @@ package mg.itu.matelas.controller.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.servlet.http.HttpSession;
+import mg.itu.matelas.dto.RandomDTO;
 import mg.itu.matelas.entity.MvtStock;
 import mg.itu.matelas.entity.fabrication.Formule;
 import mg.itu.matelas.entity.fabrication.Machine;
@@ -14,7 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import mg.itu.matelas.entity.Matelas;
 import mg.itu.matelas.service.MatelasService;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -53,6 +60,39 @@ public class MatelasRestController {
         matelasService.createData();
         return "Vita";
     }
+
+
+    @PostMapping("/generate")
+    public String formGenerate(@ModelAttribute RandomDTO randomDTO){
+        System.out.println(randomDTO.getLongueurMin()+" - "+ randomDTO.getLongueurMax());
+        System.out.println(randomDTO.getLargeurMin()+" - "+ randomDTO.getLargeurMax());
+        System.out.println(randomDTO.getEpaisseurMin()+" - "+ randomDTO.getEpaisseurMax());
+        System.out.println(randomDTO.getDateMin()+" - "+ randomDTO.getDateMax());
+        matelasService.createData(randomDTO);
+        return "Vita";
+    }
+
+    /*@PostMapping("/import")
+    public String importer(MultipartFile file){
+        if(file.isEmpty()){
+            return "Le fichier est vide";
+        }
+
+        List<String[]> data=new ArrayList<String[]>();
+        try(BufferedReader reader=new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))
+        ){
+            String line;
+            while((line= reader.readLine())!=null){
+                String[] values=line.split(",");
+                data.add(values);
+            }
+        }
+        catch(Exception ex){
+            return ex.getMessage();
+        }
+        matelasService.save(data);
+        return "Vita";
+    }*/
 
     @GetMapping("/update_all")
     @JsonView(POV.Public.class)

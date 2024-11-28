@@ -11,10 +11,6 @@ public final class Utilitaire {
         return (float)(min + (max - min) * (float) Math.random());
     }
 
-    public static Long generateNumberRandLong(long min,long max){
-        return (Long)(min + (max - min) * (long) Math.random());
-    }
-
     public static LocalDate generateDateRand(LocalDate dateMin,LocalDate dateMax){
         long startEpochDay = dateMin.toEpochDay(); // Nombre de jours depuis Epoch
         long endEpochDay = dateMax.toEpochDay();
@@ -22,11 +18,15 @@ public final class Utilitaire {
         return genereteDateOuvrableRand(startEpochDay,endEpochDay);
     }
 
+    public static Long generateNumberRandLong(long min,long max){
+        return (Long)(min + (max - min) * (long) Math.random());
+    }
+
     private static LocalDate genereteDateOuvrableRand(long startEpochDay,long endEpochDay){
         while(true){
             long randomEpochDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay + 1); // Générer un jour aléatoire
             LocalDate date=LocalDate.ofEpochDay(randomEpochDay);
-            if(isWeekend(date)){
+            if(!isWeekend(date)){
                 return date;
             }
         }
@@ -36,7 +36,7 @@ public final class Utilitaire {
         while(true){
             long randomEpochSecond = ThreadLocalRandom.current().nextLong(startEpochSecond, endEpochSecond + 1); // Générer un timestamp aléatoire
             LocalDateTime date=LocalDateTime.ofEpochSecond(randomEpochSecond, 0, ZoneOffset.UTC);
-            if(isWeekend(date.toLocalDate())){
+            if(!isWeekend(date.toLocalDate())){
                 return date;
             }
         }

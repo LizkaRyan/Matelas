@@ -71,4 +71,6 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER update_matelas_trigger
     AFTER update ON matelas
     FOR EACH ROW
-    EXECUTE FUNCTION updatePriceRevient();
+    EXECUTE FUNCTION updatePriceRevient()
+
+\COPY (select longueur,largeur,epaisseur,prix_revient,prix_revient-ecart as prix_theorique,ecart,date_mvt_stock,id_machine from mvt_stock join matelas on mvt_stock.id_matelas=matelas.id_matelas) TO 'C:\Users\ryrab\Desktop\Ryan\Etudes\mvt_stock.csv' DELIMITER ',' CSV HEADER;
