@@ -11,15 +11,15 @@ public final class Utilitaire {
         return (float)(min + (max - min) * (float) Math.random());
     }
 
-    public static Long generateNumberRandLong(long min,long max){
-        return (Long)(min + (max - min) * (long) Math.random());
-    }
-
     public static LocalDate generateDateRand(LocalDate dateMin,LocalDate dateMax){
         long startEpochDay = dateMin.toEpochDay(); // Nombre de jours depuis Epoch
         long endEpochDay = dateMax.toEpochDay();
 
         return genereteDateOuvrableRand(startEpochDay,endEpochDay);
+    }
+
+    public static Long generateNumberRandLong(long min,long max){
+        return (Long)(min + (max - min) * (long) Math.random());
     }
 
     private static LocalDate genereteDateOuvrableRand(long startEpochDay,long endEpochDay){

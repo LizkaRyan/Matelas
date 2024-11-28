@@ -46,3 +46,6 @@ ALTER SEQUENCE formule_id_formule_seq RESTART WITH 1;
 ALTER SEQUENCE matelas_id_matelas_seq RESTART WITH 1;
 ALTER SEQUENCE transformation_id_transformation_seq RESTART WITH 1;
 ALTER SEQUENCE mvt_stock_id_mvt_stock_seq RESTART WITH 1;
+
+
+\copy (select longueur,largeur,epaisseur,prix_revient,id_machine,date_mvt_stock from matelas join mvt_stock on mvt_stock.id_matelas=matelas.id_matelas where matelas.id_matelas>2) TO 'C:\Users\ryrab\Desktop\Ryan\Etudes\S5\ArchitectureLogiciel\Matelas\matelas\Matelas\sql\export.csv' WITH (FORMAT CSV, DELIMITER ',', HEADER);

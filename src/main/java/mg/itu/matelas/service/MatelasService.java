@@ -48,6 +48,17 @@ public class MatelasService {
         return matelasRepository.save(matelas);
     }
 
+
+    /*public void save(List<String[]> data){
+        Long idMatelas= matelasRepository.getId();
+        //String longueur,String largeur,String epaisseur,String prixRevient
+        List<MvtStock> mvtStocks
+        for (String[] value:data) {
+
+        }
+        Matelas matelas=new Matelas(idMatelas,);
+    }*/
+
     @Transactional
     public void updateSequence(Long id){
         jdbcTemplate.execute("ALTER SEQUENCE matelas_id_matelas_seq RESTART WITH "+id);
@@ -120,9 +131,8 @@ public class MatelasService {
         Long id= this.getId();
         List<Matelas> matelasList=matelasRepository.findAll();
         List<MvtStock> mvtStocks=new ArrayList<MvtStock>();
-        int taille=randomDTO.getNombre();
         double moyenne=Matelas.getMoyennePRU(matelasList);
-        for (int i = 0; i < taille; i++) {
+        for (int i = 0; i < randomDTO.getNombre(); i++) {
             Matelas matelas=new Matelas(id,moyenne,randomDTO);
             matelas.setMatelas("Matelas "+id);
             mvtStocks.add(new MvtStock(matelas,machines.get((int) Utilitaire.generateNumberRand(0,4)).getIdMachine()));
