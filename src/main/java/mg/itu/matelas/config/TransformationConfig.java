@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Component
 public class TransformationConfig {
+    //Test
     @Value("${transformation.margin.percentage}")
     private double percentage;
 }
